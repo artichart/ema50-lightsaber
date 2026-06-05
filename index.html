@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EMA50 Lightsaber — ระบบเทรดทองคำ XAUUSD</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         :root {
             --gold: #ffd700;
@@ -872,36 +873,111 @@
 
 </div>
 
-<!-- ═══════════ LINE MODAL ═══════════ -->
+<!-- ═══════════ ALERT MODAL ═══════════ -->
 <div id="lineModal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1rem;">
-    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:500px;width:100%;">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-            <h3 style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;color:var(--gold);">🟢 เชื่อมต่อ LINE Notify</h3>
+            <h3 style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;color:var(--gold);">📲 ตั้งค่าแจ้งเตือน</h3>
             <button onclick="closeLineModal()" style="background:none;border:none;color:var(--text-dim);font-size:1.4rem;cursor:pointer;line-height:1;">✕</button>
         </div>
 
-        <div style="background:var(--bg-card2);border-radius:10px;padding:1.1rem;margin-bottom:1.25rem;font-size:.85rem;line-height:2;color:var(--text-dim);">
-            <div style="color:var(--cyan);font-weight:700;margin-bottom:.4rem;font-size:.9rem;">⚙️ วิธีตั้งค่า (ทำครั้งเดียว ~5 นาที)</div>
-            <div><span style="color:var(--gold);">1.</span> สมัคร <a href="https://make.com" target="_blank" style="color:var(--cyan);">make.com</a> (ฟรี)</div>
-            <div><span style="color:var(--gold);">2.</span> สร้าง Scenario ใหม่ → เพิ่ม <b style="color:var(--text);">Webhooks › Custom webhook</b></div>
-            <div><span style="color:var(--gold);">3.</span> เพิ่ม module <b style="color:var(--text);">LINE › Send a Notification</b></div>
-            <div><span style="color:var(--gold);">4.</span> ใส่ LINE Notify Token (รับได้จาก <a href="https://notify-bot.line.me" target="_blank" style="color:var(--cyan);">notify-bot.line.me</a>)</div>
-            <div><span style="color:var(--gold);">5.</span> Map field <b style="color:var(--text);">Message</b> = <code style="background:rgba(255,255,255,.06);padding:1px 6px;border-radius:3px;">{{message}}</code></div>
-            <div><span style="color:var(--gold);">6.</span> Copy Webhook URL → วางด้านล่าง → กด บันทึก</div>
+        <!-- Tabs -->
+        <div style="display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+            <button id="tabTg" onclick="switchAlertTab('tg')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(0,212,255,.5);background:rgba(0,212,255,.08);color:var(--cyan);font-size:.88rem;cursor:pointer;font-family:'Sarabun',sans-serif;font-weight:700;">✈️ Telegram</button>
+            <button id="tabEm" onclick="switchAlertTab('em')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text-dim);font-size:.88rem;cursor:pointer;font-family:'Sarabun',sans-serif;">📧 Email</button>
+            <button id="tabWh" onclick="switchAlertTab('wh')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text-dim);font-size:.88rem;cursor:pointer;font-family:'Sarabun',sans-serif;">🔗 Webhook</button>
         </div>
 
-        <div id="lineStatus" style="display:none;margin-bottom:1rem;padding:.65rem 1rem;border-radius:8px;font-size:.85rem;"></div>
+        <!-- Telegram Panel -->
+        <div id="panelTg">
+            <div style="background:var(--bg-card2);border-radius:10px;padding:1.1rem;margin-bottom:1.25rem;font-size:.85rem;line-height:2.1;color:var(--text-dim);">
+                <div style="color:var(--cyan);font-weight:700;margin-bottom:.4rem;">⚙️ วิธีตั้งค่า Telegram (~3 นาที)</div>
+                <div><span style="color:var(--gold);">1.</span> เปิด Telegram → ค้นหา <b style="color:var(--text);">@BotFather</b></div>
+                <div><span style="color:var(--gold);">2.</span> ส่ง <code style="background:rgba(255,255,255,.07);padding:1px 6px;border-radius:3px;">/newbot</code> → ตั้งชื่อ → Copy <b style="color:var(--text);">Bot Token</b></div>
+                <div><span style="color:var(--gold);">3.</span> ค้นหา <b style="color:var(--text);">@userinfobot</b> → ส่งอะไรก็ได้ → Copy <b style="color:var(--text);">Id</b> ที่ได้รับ</div>
+                <div><span style="color:var(--gold);">4.</span> ส่งข้อความหา Bot ที่สร้างไว้ก่อน 1 ครั้ง (เพื่อ activate)</div>
+                <div><span style="color:var(--gold);">5.</span> ใส่ Token + Chat ID ด้านล่าง → กด ทดสอบ</div>
+            </div>
+            <div style="display:grid;gap:.85rem;margin-bottom:1.25rem;">
+                <div>
+                    <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:5px;">Bot Token</label>
+                    <input id="tgToken" type="text"
+                        style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;"
+                        placeholder="123456789:ABCdefGHI...">
+                </div>
+                <div>
+                    <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:5px;">Chat ID (ตัวเลข)</label>
+                    <input id="tgChat" type="text"
+                        style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;"
+                        placeholder="123456789">
+                </div>
+            </div>
+            <div id="statusTg" style="display:none;margin-bottom:1rem;padding:.65rem 1rem;border-radius:8px;font-size:.85rem;"></div>
+            <div style="display:flex;gap:.75rem;justify-content:space-between;flex-wrap:wrap;">
+                <button onclick="testTelegram()" style="background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.88rem;">📤 ทดสอบส่ง</button>
+                <div style="display:flex;gap:.75rem;">
+                    <button onclick="clearTelegram()" style="background:transparent;border:1px solid rgba(255,68,85,.3);color:var(--red);padding:9px 16px;border-radius:8px;cursor:pointer;font-size:.88rem;">ลบ</button>
+                    <button onclick="saveTelegram()" style="background:linear-gradient(135deg,#9a6e00,var(--gold));color:#000;padding:9px 24px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:.9rem;font-family:'Sarabun',sans-serif;">💾 บันทึก</button>
+                </div>
+            </div>
+        </div>
 
-        <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:6px;">Make.com Webhook URL</label>
-        <input id="lineWebhookInput" type="url"
-            style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;margin-bottom:1.25rem;transition:border-color .2s;"
-            placeholder="https://hook.eu2.make.com/xxxxxxxxxxxxxxxx">
+        <!-- Email Panel -->
+        <div id="panelEm" style="display:none;">
+            <div style="background:var(--bg-card2);border-radius:10px;padding:1.1rem;margin-bottom:1.25rem;font-size:.85rem;line-height:2.1;color:var(--text-dim);">
+                <div style="color:var(--cyan);font-weight:700;margin-bottom:.4rem;">⚙️ วิธีตั้งค่า EmailJS (~5 นาที, ฟรี 200 อีเมล/เดือน)</div>
+                <div><span style="color:var(--gold);">1.</span> สมัคร <a href="https://emailjs.com" target="_blank" style="color:var(--cyan);">emailjs.com</a> → Add Email Service → เลือก Gmail</div>
+                <div><span style="color:var(--gold);">2.</span> สร้าง Email Template → ตั้งชื่อ Subject = <code style="background:rgba(255,255,255,.07);padding:1px 5px;border-radius:3px;">EMA50 Alert</code></div>
+                <div><span style="color:var(--gold);">3.</span> ในช่อง Body ใส่ <code style="background:rgba(255,255,255,.07);padding:1px 5px;border-radius:3px;">{{message}}</code></div>
+                <div><span style="color:var(--gold);">4.</span> Copy <b style="color:var(--text);">Service ID</b>, <b style="color:var(--text);">Template ID</b>, <b style="color:var(--text);">Public Key</b></div>
+            </div>
+            <div style="display:grid;gap:.85rem;margin-bottom:1.25rem;">
+                <div>
+                    <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:5px;">Public Key</label>
+                    <input id="emKey" type="text" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;" placeholder="xxxxxxxxxxxxxxx">
+                </div>
+                <div>
+                    <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:5px;">Service ID</label>
+                    <input id="emSvc" type="text" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;" placeholder="service_xxxxxxx">
+                </div>
+                <div>
+                    <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:5px;">Template ID</label>
+                    <input id="emTpl" type="text" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;" placeholder="template_xxxxxxx">
+                </div>
+                <div>
+                    <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:5px;">ส่งไปที่ Email</label>
+                    <input id="emTo" type="email" style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;" placeholder="artichart.p@gmail.com">
+                </div>
+            </div>
+            <div id="statusEm" style="display:none;margin-bottom:1rem;padding:.65rem 1rem;border-radius:8px;font-size:.85rem;"></div>
+            <div style="display:flex;gap:.75rem;justify-content:space-between;flex-wrap:wrap;">
+                <button onclick="testEmail()" style="background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.88rem;">📤 ทดสอบส่ง</button>
+                <div style="display:flex;gap:.75rem;">
+                    <button onclick="clearEmail()" style="background:transparent;border:1px solid rgba(255,68,85,.3);color:var(--red);padding:9px 16px;border-radius:8px;cursor:pointer;font-size:.88rem;">ลบ</button>
+                    <button onclick="saveEmail()" style="background:linear-gradient(135deg,#9a6e00,var(--gold));color:#000;padding:9px 24px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:.9rem;font-family:'Sarabun',sans-serif;">💾 บันทึก</button>
+                </div>
+            </div>
+        </div>
 
-        <div style="display:flex;gap:.75rem;justify-content:space-between;align-items:center;flex-wrap:wrap;">
-            <button onclick="testWebhook()" style="background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.88rem;transition:all .2s;">📤 ทดสอบส่ง</button>
-            <div style="display:flex;gap:.75rem;">
-                <button onclick="clearWebhook()" style="background:transparent;border:1px solid rgba(255,68,85,.3);color:var(--red);padding:9px 16px;border-radius:8px;cursor:pointer;font-size:.88rem;">ลบ</button>
-                <button onclick="saveWebhook()" style="background:linear-gradient(135deg,#9a6e00,var(--gold));color:#000;padding:9px 24px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:.9rem;font-family:'Sarabun',sans-serif;">💾 บันทึก</button>
+        <!-- Webhook Panel -->
+        <div id="panelWh" style="display:none;">
+            <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.15);border-radius:10px;padding:1rem;margin-bottom:1.25rem;font-size:.84rem;color:var(--text-dim);line-height:1.8;">
+                <div style="color:var(--gold);font-weight:700;margin-bottom:.4rem;">LINE Messaging API + Make.com</div>
+                สำหรับ LINE ต้องใช้ Make.com เป็น bridge เนื่องจาก LINE API ไม่รองรับ CORS<br>
+                ใน Make.com: <b style="color:var(--text);">Custom Webhook → LINE (Messaging API)</b><br>
+                Map field Message = <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;">{{message}}</code>
+            </div>
+            <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:6px;">Webhook URL</label>
+            <input id="whInput" type="url"
+                style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;margin-bottom:1.25rem;"
+                placeholder="https://hook.eu2.make.com/xxxxxxxxxxxx">
+            <div id="statusWh" style="display:none;margin-bottom:1rem;padding:.65rem 1rem;border-radius:8px;font-size:.85rem;"></div>
+            <div style="display:flex;gap:.75rem;justify-content:space-between;flex-wrap:wrap;">
+                <button onclick="testWebhook()" style="background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.88rem;">📤 ทดสอบส่ง</button>
+                <div style="display:flex;gap:.75rem;">
+                    <button onclick="clearWebhook()" style="background:transparent;border:1px solid rgba(255,68,85,.3);color:var(--red);padding:9px 16px;border-radius:8px;cursor:pointer;font-size:.88rem;">ลบ</button>
+                    <button onclick="saveWebhook()" style="background:linear-gradient(135deg,#9a6e00,var(--gold));color:#000;padding:9px 24px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:.9rem;font-family:'Sarabun',sans-serif;">💾 บันทึก</button>
+                </div>
             </div>
         </div>
     </div>
@@ -914,9 +990,63 @@
 </footer>
 
 <script>
-/* ── LINE WEBHOOK ── */
-const WKEY = 'ema50_webhook';
+/* ── ALERT CHANNELS (Telegram + Webhook) ── */
+const WKEY   = 'ema50_webhook';
+const TG_TOK = 'ema50_tg_token';
+const TG_CID = 'ema50_tg_chat';
 
+/* ---- Telegram ---- */
+async function sendTelegram(message) {
+    const token = localStorage.getItem(TG_TOK);
+    const chatId = localStorage.getItem(TG_CID);
+    if (!token || !chatId) return;
+    try {
+        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: message })
+        });
+    } catch(e) {}
+}
+
+function saveTelegram() {
+    const token = document.getElementById('tgToken').value.trim();
+    const chat  = document.getElementById('tgChat').value.trim();
+    if (!token || !chat) { showStatus('statusTg','❌ กรุณากรอกทั้ง Token และ Chat ID', false); return; }
+    localStorage.setItem(TG_TOK, token);
+    localStorage.setItem(TG_CID, chat);
+    updateLineBtnState();
+    showStatus('statusTg','✅ บันทึกแล้ว! กด "ทดสอบส่ง" เพื่อตรวจสอบ', true);
+}
+
+function clearTelegram() {
+    localStorage.removeItem(TG_TOK);
+    localStorage.removeItem(TG_CID);
+    document.getElementById('tgToken').value = '';
+    document.getElementById('tgChat').value = '';
+    updateLineBtnState();
+    showStatus('statusTg','🗑 ลบข้อมูล Telegram แล้ว', false);
+}
+
+async function testTelegram() {
+    const token = document.getElementById('tgToken').value.trim();
+    const chat  = document.getElementById('tgChat').value.trim();
+    if (!token || !chat) { showStatus('statusTg','❌ กรุณากรอก Token และ Chat ID ก่อน', false); return; }
+    showStatus('statusTg','⏳ กำลังส่ง...', true);
+    try {
+        const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chat, text: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือนสำเร็จ!\nระบบพร้อมแจ้งเตือน NY AM 20:00–23:00 น.' })
+        });
+        const data = await r.json();
+        showStatus('statusTg', data.ok ? '✅ ส่งสำเร็จ! เช็ค Telegram ได้เลย' : `❌ ${data.description || 'Error'}`, data.ok);
+    } catch(e) {
+        showStatus('statusTg','❌ ส่งไม่ได้ — ตรวจสอบ Token และ Chat ID', false);
+    }
+}
+
+/* ---- Webhook (LINE/Make.com) ---- */
 function getWebhookUrl() { return localStorage.getItem(WKEY) || ''; }
 
 async function sendWebhook(message) {
@@ -931,18 +1061,130 @@ async function sendWebhook(message) {
     } catch(e) {}
 }
 
+function saveWebhook() {
+    const url = document.getElementById('whInput').value.trim();
+    if (url && !url.startsWith('http')) { showStatus('statusWh','❌ URL ไม่ถูกต้อง', false); return; }
+    localStorage.setItem(WKEY, url);
+    updateLineBtnState();
+    showStatus('statusWh', url ? '✅ บันทึกแล้ว!' : '🗑 ลบ URL แล้ว', !!url);
+}
+
+function clearWebhook() {
+    localStorage.removeItem(WKEY);
+    document.getElementById('whInput').value = '';
+    updateLineBtnState();
+    showStatus('statusWh','🗑 ลบ Webhook URL แล้ว', false);
+}
+
+async function testWebhook() {
+    const url = document.getElementById('whInput').value.trim();
+    if (!url) { showStatus('statusWh','❌ ยังไม่ได้ใส่ URL', false); return; }
+    showStatus('statusWh','⏳ กำลังส่ง...', true);
+    try {
+        const r = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: '🗡️ EMA50 Lightsaber ทดสอบ Webhook สำเร็จ! ✅' })
+        });
+        showStatus('statusWh', r.ok ? '✅ ส่งสำเร็จ!' : `⚠️ HTTP ${r.status}`, r.ok);
+    } catch(e) {
+        showStatus('statusWh','❌ ส่งไม่ได้ — ตรวจสอบ URL', false);
+    }
+}
+
+/* ---- Email (EmailJS) ---- */
+const EM_KEY = 'ema50_em_key';
+const EM_SVC = 'ema50_em_svc';
+const EM_TPL = 'ema50_em_tpl';
+const EM_TO  = 'ema50_em_to';
+
+async function sendEmail(message) {
+    const key = localStorage.getItem(EM_KEY);
+    const svc = localStorage.getItem(EM_SVC);
+    const tpl = localStorage.getItem(EM_TPL);
+    const to  = localStorage.getItem(EM_TO);
+    if (!key || !svc || !tpl || !to) return;
+    try {
+        emailjs.init({ publicKey: key });
+        await emailjs.send(svc, tpl, { message, to_email: to });
+    } catch(e) {}
+}
+
+function saveEmail() {
+    const key = document.getElementById('emKey').value.trim();
+    const svc = document.getElementById('emSvc').value.trim();
+    const tpl = document.getElementById('emTpl').value.trim();
+    const to  = document.getElementById('emTo').value.trim();
+    if (!key || !svc || !tpl || !to) { showStatus('statusEm','❌ กรุณากรอกให้ครบทุกช่อง', false); return; }
+    localStorage.setItem(EM_KEY, key);
+    localStorage.setItem(EM_SVC, svc);
+    localStorage.setItem(EM_TPL, tpl);
+    localStorage.setItem(EM_TO,  to);
+    updateLineBtnState();
+    showStatus('statusEm','✅ บันทึกแล้ว! กด "ทดสอบส่ง" เพื่อตรวจสอบ', true);
+}
+
+function clearEmail() {
+    [EM_KEY, EM_SVC, EM_TPL, EM_TO].forEach(k => localStorage.removeItem(k));
+    ['emKey','emSvc','emTpl','emTo'].forEach(id => document.getElementById(id).value = '');
+    updateLineBtnState();
+    showStatus('statusEm','🗑 ลบข้อมูล Email แล้ว', false);
+}
+
+async function testEmail() {
+    const key = document.getElementById('emKey').value.trim();
+    const svc = document.getElementById('emSvc').value.trim();
+    const tpl = document.getElementById('emTpl').value.trim();
+    const to  = document.getElementById('emTo').value.trim();
+    if (!key || !svc || !tpl || !to) { showStatus('statusEm','❌ กรุณากรอกให้ครบก่อน', false); return; }
+    showStatus('statusEm','⏳ กำลังส่ง...', true);
+    try {
+        emailjs.init({ publicKey: key });
+        await emailjs.send(svc, tpl, { message: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือน Email สำเร็จ!\nระบบพร้อมแจ้งเตือน NY AM 20:00–23:00 น.', to_email: to });
+        showStatus('statusEm','✅ ส่งสำเร็จ! เช็ค Email ได้เลย', true);
+    } catch(e) {
+        showStatus('statusEm','❌ ส่งไม่ได้ — ตรวจสอบ Key/Service/Template ID', false);
+    }
+}
+
+/* ---- Shared alert sender ---- */
+async function sendAlert(message) {
+    sendTelegram(message);
+    sendWebhook(message);
+    sendEmail(message);
+}
+
+/* ---- Modal UI ---- */
 function openLineModal() {
     document.getElementById('lineModal').style.display = 'flex';
-    document.getElementById('lineWebhookInput').value = getWebhookUrl();
-    document.getElementById('lineStatus').style.display = 'none';
+    document.getElementById('tgToken').value = localStorage.getItem(TG_TOK) || '';
+    document.getElementById('tgChat').value  = localStorage.getItem(TG_CID) || '';
+    document.getElementById('whInput').value = getWebhookUrl();
+    document.getElementById('emKey').value   = localStorage.getItem(EM_KEY) || '';
+    document.getElementById('emSvc').value   = localStorage.getItem(EM_SVC) || '';
+    document.getElementById('emTpl').value   = localStorage.getItem(EM_TPL) || '';
+    document.getElementById('emTo').value    = localStorage.getItem(EM_TO)  || '';
+    ['statusTg','statusEm','statusWh'].forEach(id => document.getElementById(id).style.display = 'none');
+    switchAlertTab('tg');
 }
 
 function closeLineModal() {
     document.getElementById('lineModal').style.display = 'none';
 }
 
-function showLineStatus(msg, ok) {
-    const el = document.getElementById('lineStatus');
+function switchAlertTab(tab) {
+    ['tg','em','wh'].forEach(t => {
+        document.getElementById('panel' + t.charAt(0).toUpperCase() + t.slice(1)).style.display = t === tab ? 'block' : 'none';
+    });
+    const on  = ';border:1px solid rgba(0,212,255,.5);background:rgba(0,212,255,.08);color:var(--cyan);font-weight:700;';
+    const off = ';border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text-dim);font-weight:400;';
+    document.getElementById('tabTg').style.cssText += tab === 'tg' ? on : off;
+    document.getElementById('tabEm').style.cssText += tab === 'em' ? on : off;
+    document.getElementById('tabWh').style.cssText += tab === 'wh' ? on : off;
+}
+
+function showStatus(elId, msg, ok) {
+    const el = document.getElementById(elId);
     el.style.display = 'block';
     el.style.background = ok ? 'rgba(0,232,122,.08)' : 'rgba(255,68,85,.08)';
     el.style.border = ok ? '1px solid rgba(0,232,122,.3)' : '1px solid rgba(255,68,85,.3)';
@@ -950,42 +1192,11 @@ function showLineStatus(msg, ok) {
     el.textContent = msg;
 }
 
-function saveWebhook() {
-    const url = document.getElementById('lineWebhookInput').value.trim();
-    if (url && !url.startsWith('http')) { showLineStatus('❌ URL ไม่ถูกต้อง', false); return; }
-    localStorage.setItem(WKEY, url);
-    updateLineBtnState();
-    showLineStatus(url ? '✅ บันทึกแล้ว! กด "ทดสอบส่ง" เพื่อตรวจสอบ' : '🗑 ลบ URL แล้ว', !!url);
-}
-
-function clearWebhook() {
-    localStorage.removeItem(WKEY);
-    document.getElementById('lineWebhookInput').value = '';
-    updateLineBtnState();
-    showLineStatus('🗑 ลบ Webhook URL แล้ว', false);
-}
-
-async function testWebhook() {
-    const url = document.getElementById('lineWebhookInput').value.trim();
-    if (!url) { showLineStatus('❌ ยังไม่ได้ใส่ URL', false); return; }
-    showLineStatus('⏳ กำลังส่ง...', true);
-    try {
-        const r = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: '🗡️ EMA50 Lightsaber ทดสอบการแจ้งเตือน LINE สำเร็จ! ✅\nระบบพร้อมแจ้งเตือน NY AM 20:00–23:00 น.' })
-        });
-        showLineStatus(r.ok ? '✅ ส่งสำเร็จ! เช็ค LINE ได้เลย' : `⚠️ HTTP ${r.status} — ตรวจสอบ Make.com`, r.ok);
-    } catch(e) {
-        showLineStatus('❌ ส่งไม่ได้ — ตรวจสอบ URL หรือ CORS ของ Webhook', false);
-    }
-}
-
 function updateLineBtnState() {
     const btn = document.getElementById('lineBtn');
     if (!btn) return;
-    const has = !!getWebhookUrl();
-    btn.textContent = has ? 'LINE ✅' : 'LINE 🔗';
+    const has = !!(localStorage.getItem(TG_TOK) || getWebhookUrl() || localStorage.getItem(EM_KEY));
+    btn.textContent = has ? '📲 แจ้งเตือน ✅' : '📲 แจ้งเตือน+';
     btn.classList.toggle('on', has);
 }
 
@@ -1046,19 +1257,19 @@ function checkWindowNotif(isOpen, totalMin, t) {
         notif5Sent = true;
         const msg5 = 'NY AM Window เปิดในอีก 5 นาที! (20:00 น.)\nเปิด TradingView เตรียมดู M15 Trigger ได้เลย';
         sendNotif('EMA50 Lightsaber ⚡', msg5);
-        sendWebhook('⚡ EMA50 Lightsaber\n' + msg5);
+        sendAlert('⚡ EMA50 Lightsaber\n' + msg5);
     }
 
     /* Window open / close transition */
     if (prevWindowOpen !== null && prevWindowOpen !== isOpen) {
         if (isOpen) {
-            const msgOpen = 'NY AM Window เปิดแล้ว! 20:00 – 23:00 น.\nรอ M15 Trigger > 1,000 จุด\nตรวจ D1 H4 H1 ทิศทางเดียวกัน ✅';
+            const msgOpen = 'NY AM Window เปิดแล้ว! 20:00–23:00 น.\nรอ M15 Trigger > 1,000 จุด\nตรวจ D1 H4 H1 ทิศทางเดียวกัน ✅';
             sendNotif('EMA50 Lightsaber 🟢 OPEN', msgOpen);
-            sendWebhook('🟢 EMA50 Lightsaber — OPEN\n' + msgOpen);
+            sendAlert('🟢 EMA50 Lightsaber — OPEN\n' + msgOpen);
         } else {
             const msgClose = 'NY AM Window ปิดแล้ว (23:00 น.)\nหยุดเทรดวันนี้ — 1 ไม้/วัน 🔒';
             sendNotif('EMA50 Lightsaber 🔒 CLOSED', msgClose);
-            sendWebhook('🔒 EMA50 Lightsaber — CLOSED\n' + msgClose);
+            sendAlert('🔒 EMA50 Lightsaber — CLOSED\n' + msgClose);
         }
     }
     prevWindowOpen = isOpen;
