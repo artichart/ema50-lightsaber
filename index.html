@@ -487,6 +487,7 @@
         <li><a href="#edu">ความรู้</a></li>
     </ul>
     <button id="notifBtn" class="btn-notif" onclick="initNotif()">🔕 แจ้งเตือน</button>
+    <button id="lineBtn" class="btn-notif" onclick="openLineModal()" style="margin-left:.4rem;">LINE 🔗</button>
 </nav>
 
 <!-- ═══════════ HERO ═══════════ -->
@@ -871,6 +872,41 @@
 
 </div>
 
+<!-- ═══════════ LINE MODAL ═══════════ -->
+<div id="lineModal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1rem;">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem;max-width:500px;width:100%;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+            <h3 style="font-family:'Rajdhani',sans-serif;font-size:1.5rem;color:var(--gold);">🟢 เชื่อมต่อ LINE Notify</h3>
+            <button onclick="closeLineModal()" style="background:none;border:none;color:var(--text-dim);font-size:1.4rem;cursor:pointer;line-height:1;">✕</button>
+        </div>
+
+        <div style="background:var(--bg-card2);border-radius:10px;padding:1.1rem;margin-bottom:1.25rem;font-size:.85rem;line-height:2;color:var(--text-dim);">
+            <div style="color:var(--cyan);font-weight:700;margin-bottom:.4rem;font-size:.9rem;">⚙️ วิธีตั้งค่า (ทำครั้งเดียว ~5 นาที)</div>
+            <div><span style="color:var(--gold);">1.</span> สมัคร <a href="https://make.com" target="_blank" style="color:var(--cyan);">make.com</a> (ฟรี)</div>
+            <div><span style="color:var(--gold);">2.</span> สร้าง Scenario ใหม่ → เพิ่ม <b style="color:var(--text);">Webhooks › Custom webhook</b></div>
+            <div><span style="color:var(--gold);">3.</span> เพิ่ม module <b style="color:var(--text);">LINE › Send a Notification</b></div>
+            <div><span style="color:var(--gold);">4.</span> ใส่ LINE Notify Token (รับได้จาก <a href="https://notify-bot.line.me" target="_blank" style="color:var(--cyan);">notify-bot.line.me</a>)</div>
+            <div><span style="color:var(--gold);">5.</span> Map field <b style="color:var(--text);">Message</b> = <code style="background:rgba(255,255,255,.06);padding:1px 6px;border-radius:3px;">{{message}}</code></div>
+            <div><span style="color:var(--gold);">6.</span> Copy Webhook URL → วางด้านล่าง → กด บันทึก</div>
+        </div>
+
+        <div id="lineStatus" style="display:none;margin-bottom:1rem;padding:.65rem 1rem;border-radius:8px;font-size:.85rem;"></div>
+
+        <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:6px;">Make.com Webhook URL</label>
+        <input id="lineWebhookInput" type="url"
+            style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;margin-bottom:1.25rem;transition:border-color .2s;"
+            placeholder="https://hook.eu2.make.com/xxxxxxxxxxxxxxxx">
+
+        <div style="display:flex;gap:.75rem;justify-content:space-between;align-items:center;flex-wrap:wrap;">
+            <button onclick="testWebhook()" style="background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.88rem;transition:all .2s;">📤 ทดสอบส่ง</button>
+            <div style="display:flex;gap:.75rem;">
+                <button onclick="clearWebhook()" style="background:transparent;border:1px solid rgba(255,68,85,.3);color:var(--red);padding:9px 16px;border-radius:8px;cursor:pointer;font-size:.88rem;">ลบ</button>
+                <button onclick="saveWebhook()" style="background:linear-gradient(135deg,#9a6e00,var(--gold));color:#000;padding:9px 24px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:.9rem;font-family:'Sarabun',sans-serif;">💾 บันทึก</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer>
     <p><strong>EMA50 Lightsaber</strong> — ระบบเทรดทองคำ XAUUSD</p>
@@ -878,6 +914,81 @@
 </footer>
 
 <script>
+/* ── LINE WEBHOOK ── */
+const WKEY = 'ema50_webhook';
+
+function getWebhookUrl() { return localStorage.getItem(WKEY) || ''; }
+
+async function sendWebhook(message) {
+    const url = getWebhookUrl();
+    if (!url) return;
+    try {
+        await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        });
+    } catch(e) {}
+}
+
+function openLineModal() {
+    document.getElementById('lineModal').style.display = 'flex';
+    document.getElementById('lineWebhookInput').value = getWebhookUrl();
+    document.getElementById('lineStatus').style.display = 'none';
+}
+
+function closeLineModal() {
+    document.getElementById('lineModal').style.display = 'none';
+}
+
+function showLineStatus(msg, ok) {
+    const el = document.getElementById('lineStatus');
+    el.style.display = 'block';
+    el.style.background = ok ? 'rgba(0,232,122,.08)' : 'rgba(255,68,85,.08)';
+    el.style.border = ok ? '1px solid rgba(0,232,122,.3)' : '1px solid rgba(255,68,85,.3)';
+    el.style.color = ok ? 'var(--green)' : 'var(--red)';
+    el.textContent = msg;
+}
+
+function saveWebhook() {
+    const url = document.getElementById('lineWebhookInput').value.trim();
+    if (url && !url.startsWith('http')) { showLineStatus('❌ URL ไม่ถูกต้อง', false); return; }
+    localStorage.setItem(WKEY, url);
+    updateLineBtnState();
+    showLineStatus(url ? '✅ บันทึกแล้ว! กด "ทดสอบส่ง" เพื่อตรวจสอบ' : '🗑 ลบ URL แล้ว', !!url);
+}
+
+function clearWebhook() {
+    localStorage.removeItem(WKEY);
+    document.getElementById('lineWebhookInput').value = '';
+    updateLineBtnState();
+    showLineStatus('🗑 ลบ Webhook URL แล้ว', false);
+}
+
+async function testWebhook() {
+    const url = document.getElementById('lineWebhookInput').value.trim();
+    if (!url) { showLineStatus('❌ ยังไม่ได้ใส่ URL', false); return; }
+    showLineStatus('⏳ กำลังส่ง...', true);
+    try {
+        const r = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: '🗡️ EMA50 Lightsaber ทดสอบการแจ้งเตือน LINE สำเร็จ! ✅\nระบบพร้อมแจ้งเตือน NY AM 20:00–23:00 น.' })
+        });
+        showLineStatus(r.ok ? '✅ ส่งสำเร็จ! เช็ค LINE ได้เลย' : `⚠️ HTTP ${r.status} — ตรวจสอบ Make.com`, r.ok);
+    } catch(e) {
+        showLineStatus('❌ ส่งไม่ได้ — ตรวจสอบ URL หรือ CORS ของ Webhook', false);
+    }
+}
+
+function updateLineBtnState() {
+    const btn = document.getElementById('lineBtn');
+    if (!btn) return;
+    const has = !!getWebhookUrl();
+    btn.textContent = has ? 'LINE ✅' : 'LINE 🔗';
+    btn.classList.toggle('on', has);
+}
+
 /* ── NOTIFICATIONS ── */
 let notifEnabled = (typeof Notification !== 'undefined' && Notification.permission === 'granted');
 let prevWindowOpen = null;
@@ -933,15 +1044,21 @@ function checkWindowNotif(isOpen, totalMin, t) {
     /* 5 min warning: 19:55 */
     if (totalMin === 19 * 60 + 55 && !notif5Sent) {
         notif5Sent = true;
-        sendNotif('EMA50 Lightsaber ⚡', 'NY AM Window เปิดในอีก 5 นาที! (20:00 น.)\nเปิด TradingView เตรียมดู M15 Trigger ได้เลย');
+        const msg5 = 'NY AM Window เปิดในอีก 5 นาที! (20:00 น.)\nเปิด TradingView เตรียมดู M15 Trigger ได้เลย';
+        sendNotif('EMA50 Lightsaber ⚡', msg5);
+        sendWebhook('⚡ EMA50 Lightsaber\n' + msg5);
     }
 
     /* Window open / close transition */
     if (prevWindowOpen !== null && prevWindowOpen !== isOpen) {
         if (isOpen) {
-            sendNotif('EMA50 Lightsaber 🟢 OPEN', 'NY AM Window เปิดแล้ว! 20:00 – 23:00 น.\nรอ M15 Trigger > 1,000 จุด ✅');
+            const msgOpen = 'NY AM Window เปิดแล้ว! 20:00 – 23:00 น.\nรอ M15 Trigger > 1,000 จุด\nตรวจ D1 H4 H1 ทิศทางเดียวกัน ✅';
+            sendNotif('EMA50 Lightsaber 🟢 OPEN', msgOpen);
+            sendWebhook('🟢 EMA50 Lightsaber — OPEN\n' + msgOpen);
         } else {
-            sendNotif('EMA50 Lightsaber 🔒 CLOSED', 'NY AM Window ปิดแล้ว (23:00 น.)\nหยุดเทรดวันนี้ — 1 ไม้/วัน');
+            const msgClose = 'NY AM Window ปิดแล้ว (23:00 น.)\nหยุดเทรดวันนี้ — 1 ไม้/วัน 🔒';
+            sendNotif('EMA50 Lightsaber 🔒 CLOSED', msgClose);
+            sendWebhook('🔒 EMA50 Lightsaber — CLOSED\n' + msgClose);
         }
     }
     prevWindowOpen = isOpen;
@@ -1231,6 +1348,7 @@ tickClock();
 document.getElementById('j_date').value = todayStr();
 renderJournal();
 updateNotifBtn();
+updateLineBtnState();
 </script>
 </body>
 </html>
