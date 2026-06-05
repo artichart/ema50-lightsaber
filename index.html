@@ -1072,10 +1072,10 @@ async function testEmail() {
     showStatus('statusEm','⏳ กำลังส่ง...', true);
     try {
         emailjs.init({ publicKey: key });
-        await emailjs.send(svc, tpl, { message: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือน Email สำเร็จ!\nระบบพร้อมแจ้งเตือน NY AM 20:00–23:00 น.', to_email: to });
-        showStatus('statusEm','✅ ส่งสำเร็จ! เช็ค Email ได้เลย', true);
+        const result = await emailjs.send(svc, tpl, { message: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือน Email สำเร็จ!\nระบบพร้อมแจ้งเตือน NY AM 20:00–23:00 น.', to_email: to });
+        showStatus('statusEm', result.status === 200 ? '✅ ส่งสำเร็จ! เช็ค Email ได้เลย' : `⚠️ Status: ${result.status} — ${result.text}`, result.status === 200);
     } catch(e) {
-        showStatus('statusEm','❌ ส่งไม่ได้ — ตรวจสอบ Key/Service/Template ID', false);
+        showStatus('statusEm', `❌ Error: ${e.text || e.message || JSON.stringify(e)}`, false);
     }
 }
 
