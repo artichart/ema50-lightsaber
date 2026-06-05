@@ -62,6 +62,14 @@
         .nav-links { display:flex; gap:1.5rem; list-style:none; }
         .nav-links a { color:var(--text-dim); text-decoration:none; font-size:.88rem; transition:color .2s; }
         .nav-links a:hover { color:var(--gold); }
+        .btn-notif {
+            background:transparent; border:1px solid rgba(255,255,255,.12);
+            color:var(--text-dim); padding:6px 14px; border-radius:20px;
+            cursor:pointer; font-size:.8rem; transition:all .25s;
+            font-family:'Sarabun',sans-serif; white-space:nowrap;
+        }
+        .btn-notif:hover { border-color:var(--gold); color:var(--gold); }
+        .btn-notif.on { border-color:rgba(0,232,122,.45); color:var(--green); background:rgba(0,232,122,.06); }
 
         /* ─── HERO ─── */
         .hero {
@@ -475,10 +483,10 @@
         <li><a href="#window">หน้าต่างเทรด</a></li>
         <li><a href="#rules">กฎระบบ</a></li>
         <li><a href="#checklist">Checklist</a></li>
-
         <li><a href="#journal">บันทึกเทรด</a></li>
         <li><a href="#edu">ความรู้</a></li>
     </ul>
+    <button id="notifBtn" class="btn-notif" onclick="initNotif()">🔕 แจ้งเตือน</button>
 </nav>
 
 <!-- ═══════════ HERO ═══════════ -->
@@ -870,6 +878,75 @@
 </footer>
 
 <script>
+/* ── NOTIFICATIONS ── */
+let notifEnabled = (typeof Notification !== 'undefined' && Notification.permission === 'granted');
+let prevWindowOpen = null;
+let notif5Sent = false;
+let notifDay = null;
+
+function initNotif() {
+    if (!('Notification' in window)) {
+        alert('เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน');
+        return;
+    }
+    if (Notification.permission === 'granted') {
+        notifEnabled = true;
+        updateNotifBtn();
+        sendNotif('EMA50 Lightsaber', '✅ การแจ้งเตือนเปิดอยู่แล้ว พร้อมแจ้งตอน NY AM เปิด/ปิด');
+        return;
+    }
+    if (Notification.permission === 'denied') {
+        alert('การแจ้งเตือนถูกบล็อกไว้\nกรุณาเข้า Settings ของเบราว์เซอร์เพื่อเปิดสิทธิ์');
+        return;
+    }
+    Notification.requestPermission().then(perm => {
+        notifEnabled = perm === 'granted';
+        updateNotifBtn();
+        if (notifEnabled) {
+            sendNotif('EMA50 Lightsaber 🗡️', '✅ เปิดการแจ้งเตือนสำเร็จ!\nจะแจ้งเตือนเมื่อ NY AM Window เปิด/ปิด');
+        }
+    });
+}
+
+function updateNotifBtn() {
+    const btn = document.getElementById('notifBtn');
+    if (!btn) return;
+    if (notifEnabled) {
+        btn.textContent = '🔔 แจ้งเตือน: เปิด';
+        btn.classList.add('on');
+    } else {
+        btn.textContent = '🔕 แจ้งเตือน';
+        btn.classList.remove('on');
+    }
+}
+
+function sendNotif(title, body) {
+    if (!notifEnabled || Notification.permission !== 'granted') return;
+    try { new Notification(title, { body, icon: '' }); } catch(e) {}
+}
+
+function checkWindowNotif(isOpen, totalMin, t) {
+    if (!notifEnabled) return;
+    const day = `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}`;
+    if (notifDay !== day) { notif5Sent = false; notifDay = day; }
+
+    /* 5 min warning: 19:55 */
+    if (totalMin === 19 * 60 + 55 && !notif5Sent) {
+        notif5Sent = true;
+        sendNotif('EMA50 Lightsaber ⚡', 'NY AM Window เปิดในอีก 5 นาที! (20:00 น.)\nเปิด TradingView เตรียมดู M15 Trigger ได้เลย');
+    }
+
+    /* Window open / close transition */
+    if (prevWindowOpen !== null && prevWindowOpen !== isOpen) {
+        if (isOpen) {
+            sendNotif('EMA50 Lightsaber 🟢 OPEN', 'NY AM Window เปิดแล้ว! 20:00 – 23:00 น.\nรอ M15 Trigger > 1,000 จุด ✅');
+        } else {
+            sendNotif('EMA50 Lightsaber 🔒 CLOSED', 'NY AM Window ปิดแล้ว (23:00 น.)\nหยุดเทรดวันนี้ — 1 ไม้/วัน');
+        }
+    }
+    prevWindowOpen = isOpen;
+}
+
 /* ── CLOCK & WINDOW ── */
 function thaiNow() {
     const now = new Date();
@@ -928,6 +1005,9 @@ function tickClock() {
 
     /* Auto-set checklist item 0 */
     ckSet(0, isOpen, false);
+
+    /* Notification triggers */
+    checkWindowNotif(isOpen, totalMin, t);
 }
 
 
@@ -1150,6 +1230,7 @@ setInterval(tickClock, 1000);
 tickClock();
 document.getElementById('j_date').value = todayStr();
 renderJournal();
+updateNotifBtn();
 </script>
 </body>
 </html>
