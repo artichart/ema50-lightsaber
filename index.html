@@ -1131,7 +1131,8 @@ function updateLineBtnState() {
 /* ── NOTIFICATIONS ── */
 let notifEnabled = (typeof Notification !== 'undefined' && Notification.permission === 'granted');
 let prevWindowOpen = null;
-let notif5Sent = false;
+let notifPreSent   = false;
+let notifCloseSent = false;
 let notifDay = null;
 
 function initNotif() {
@@ -1177,29 +1178,37 @@ function sendNotif(title, body) {
 
 function checkWindowNotif(isOpen, totalMin, t) {
     if (!notifEnabled) return;
+
+    /* ข้ามวันหยุด เสาร์(6) อาทิตย์(0) */
+    const dow = t.getDay();
+    if (dow === 0 || dow === 6) return;
+
     const day = `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}`;
-    if (notifDay !== day) { notif5Sent = false; notifDay = day; }
+    if (notifDay !== day) { notifPreSent = false; notifCloseSent = false; notifDay = day; }
 
-    /* 5 min warning: 19:55 */
-    if (totalMin === 19 * 60 + 55 && !notif5Sent) {
-        notif5Sent = true;
-        const msg5 = 'NY AM Window เปิดในอีก 5 นาที! (20:00 น.)\nเปิด TradingView เตรียมดู M15 Trigger ได้เลย';
-        sendNotif('EMA50 Lightsaber ⚡', msg5);
-        sendAlert('⚡ EMA50 Lightsaber\n' + msg5);
+    /* 19:50 — เปิดในอีก 10 นาที */
+    if (totalMin === 19 * 60 + 50 && !notifPreSent) {
+        notifPreSent = true;
+        const msg = 'NY AM Window เปิดในอีก 10 นาที! (20:00 น.)\nเปิด TradingView เตรียมดู M15 Trigger ได้เลย';
+        sendNotif('EMA50 Lightsaber ⚡', msg);
+        sendAlert('⚡ EMA50 Lightsaber\n' + msg);
     }
 
-    /* Window open / close transition */
-    if (prevWindowOpen !== null && prevWindowOpen !== isOpen) {
-        if (isOpen) {
-            const msgOpen = 'NY AM Window เปิดแล้ว! 20:00–23:00 น.\nรอ M15 Trigger > 1,000 จุด\nตรวจ D1 H4 H1 ทิศทางเดียวกัน ✅';
-            sendNotif('EMA50 Lightsaber 🟢 OPEN', msgOpen);
-            sendAlert('🟢 EMA50 Lightsaber — OPEN\n' + msgOpen);
-        } else {
-            const msgClose = 'NY AM Window ปิดแล้ว (23:00 น.)\nหยุดเทรดวันนี้ — 1 ไม้/วัน 🔒';
-            sendNotif('EMA50 Lightsaber 🔒 CLOSED', msgClose);
-            sendAlert('🔒 EMA50 Lightsaber — CLOSED\n' + msgClose);
-        }
+    /* 20:00 — Window เปิด (transition) */
+    if (prevWindowOpen !== null && !prevWindowOpen && isOpen) {
+        const msgOpen = 'NY AM Window เปิดแล้ว! 20:00–23:00 น.\nรอ M15 Trigger > 1,000 จุด\nตรวจ D1 H4 H1 ทิศทางเดียวกัน ✅';
+        sendNotif('EMA50 Lightsaber 🟢 OPEN', msgOpen);
+        sendAlert('🟢 EMA50 Lightsaber — OPEN\n' + msgOpen);
     }
+
+    /* 22:00 — เตือนก่อนปิด 1 ชั่วโมง */
+    if (totalMin === 22 * 60 && !notifCloseSent && isOpen) {
+        notifCloseSent = true;
+        const msgClose = 'NY AM เหลืออีก 1 ชั่วโมง (ปิด 23:00 น.)\nถ้ายังไม่ได้เทรดวันนี้ — เตรียมพร้อม 🔔';
+        sendNotif('EMA50 Lightsaber 🔔 1H LEFT', msgClose);
+        sendAlert('🔔 EMA50 Lightsaber — 1H LEFT\n' + msgClose);
+    }
+
     prevWindowOpen = isOpen;
 }
 
