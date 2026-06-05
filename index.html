@@ -885,7 +885,6 @@
         <div style="display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap;">
             <button id="tabTg" onclick="switchAlertTab('tg')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(0,212,255,.5);background:rgba(0,212,255,.08);color:var(--cyan);font-size:.88rem;cursor:pointer;font-family:'Sarabun',sans-serif;font-weight:700;">✈️ Telegram</button>
             <button id="tabEm" onclick="switchAlertTab('em')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text-dim);font-size:.88rem;cursor:pointer;font-family:'Sarabun',sans-serif;">📧 Email</button>
-            <button id="tabWh" onclick="switchAlertTab('wh')" style="flex:1;padding:9px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text-dim);font-size:.88rem;cursor:pointer;font-family:'Sarabun',sans-serif;">🔗 Webhook</button>
         </div>
 
         <!-- Telegram Panel -->
@@ -959,27 +958,6 @@
             </div>
         </div>
 
-        <!-- Webhook Panel -->
-        <div id="panelWh" style="display:none;">
-            <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.15);border-radius:10px;padding:1rem;margin-bottom:1.25rem;font-size:.84rem;color:var(--text-dim);line-height:1.8;">
-                <div style="color:var(--gold);font-weight:700;margin-bottom:.4rem;">LINE Messaging API + Make.com</div>
-                สำหรับ LINE ต้องใช้ Make.com เป็น bridge เนื่องจาก LINE API ไม่รองรับ CORS<br>
-                ใน Make.com: <b style="color:var(--text);">Custom Webhook → LINE (Messaging API)</b><br>
-                Map field Message = <code style="background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;">{{message}}</code>
-            </div>
-            <label style="display:block;font-size:.8rem;color:var(--text-dim);margin-bottom:6px;">Webhook URL</label>
-            <input id="whInput" type="url"
-                style="width:100%;background:var(--bg);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 14px;color:var(--text);font-size:.88rem;font-family:'Sarabun',sans-serif;margin-bottom:1.25rem;"
-                placeholder="https://hook.eu2.make.com/xxxxxxxxxxxx">
-            <div id="statusWh" style="display:none;margin-bottom:1rem;padding:.65rem 1rem;border-radius:8px;font-size:.85rem;"></div>
-            <div style="display:flex;gap:.75rem;justify-content:space-between;flex-wrap:wrap;">
-                <button onclick="testWebhook()" style="background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:.88rem;">📤 ทดสอบส่ง</button>
-                <div style="display:flex;gap:.75rem;">
-                    <button onclick="clearWebhook()" style="background:transparent;border:1px solid rgba(255,68,85,.3);color:var(--red);padding:9px 16px;border-radius:8px;cursor:pointer;font-size:.88rem;">ลบ</button>
-                    <button onclick="saveWebhook()" style="background:linear-gradient(135deg,#9a6e00,var(--gold));color:#000;padding:9px 24px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:.9rem;font-family:'Sarabun',sans-serif;">💾 บันทึก</button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -991,7 +969,6 @@
 
 <script>
 /* ── ALERT CHANNELS (Telegram + Webhook) ── */
-const WKEY   = 'ema50_webhook';
 const TG_TOK = 'ema50_tg_token';
 const TG_CID = 'ema50_tg_chat';
 
@@ -1046,51 +1023,6 @@ async function testTelegram() {
     }
 }
 
-/* ---- Webhook (LINE/Make.com) ---- */
-function getWebhookUrl() { return localStorage.getItem(WKEY) || ''; }
-
-async function sendWebhook(message) {
-    const url = getWebhookUrl();
-    if (!url) return;
-    try {
-        await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message })
-        });
-    } catch(e) {}
-}
-
-function saveWebhook() {
-    const url = document.getElementById('whInput').value.trim();
-    if (url && !url.startsWith('http')) { showStatus('statusWh','❌ URL ไม่ถูกต้อง', false); return; }
-    localStorage.setItem(WKEY, url);
-    updateLineBtnState();
-    showStatus('statusWh', url ? '✅ บันทึกแล้ว!' : '🗑 ลบ URL แล้ว', !!url);
-}
-
-function clearWebhook() {
-    localStorage.removeItem(WKEY);
-    document.getElementById('whInput').value = '';
-    updateLineBtnState();
-    showStatus('statusWh','🗑 ลบ Webhook URL แล้ว', false);
-}
-
-async function testWebhook() {
-    const url = document.getElementById('whInput').value.trim();
-    if (!url) { showStatus('statusWh','❌ ยังไม่ได้ใส่ URL', false); return; }
-    showStatus('statusWh','⏳ กำลังส่ง...', true);
-    try {
-        const r = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: '🗡️ EMA50 Lightsaber ทดสอบ Webhook สำเร็จ! ✅' })
-        });
-        showStatus('statusWh', r.ok ? '✅ ส่งสำเร็จ!' : `⚠️ HTTP ${r.status}`, r.ok);
-    } catch(e) {
-        showStatus('statusWh','❌ ส่งไม่ได้ — ตรวจสอบ URL', false);
-    }
-}
 
 /* ---- Email (EmailJS) ---- */
 const EM_KEY = 'ema50_em_key';
@@ -1150,7 +1082,6 @@ async function testEmail() {
 /* ---- Shared alert sender ---- */
 async function sendAlert(message) {
     sendTelegram(message);
-    sendWebhook(message);
     sendEmail(message);
 }
 
@@ -1159,12 +1090,11 @@ function openLineModal() {
     document.getElementById('lineModal').style.display = 'flex';
     document.getElementById('tgToken').value = localStorage.getItem(TG_TOK) || '';
     document.getElementById('tgChat').value  = localStorage.getItem(TG_CID) || '';
-    document.getElementById('whInput').value = getWebhookUrl();
     document.getElementById('emKey').value   = localStorage.getItem(EM_KEY) || '';
     document.getElementById('emSvc').value   = localStorage.getItem(EM_SVC) || '';
     document.getElementById('emTpl').value   = localStorage.getItem(EM_TPL) || '';
     document.getElementById('emTo').value    = localStorage.getItem(EM_TO)  || '';
-    ['statusTg','statusEm','statusWh'].forEach(id => document.getElementById(id).style.display = 'none');
+    ['statusTg','statusEm'].forEach(id => document.getElementById(id).style.display = 'none');
     switchAlertTab('tg');
 }
 
@@ -1173,14 +1103,12 @@ function closeLineModal() {
 }
 
 function switchAlertTab(tab) {
-    ['tg','em','wh'].forEach(t => {
-        document.getElementById('panel' + t.charAt(0).toUpperCase() + t.slice(1)).style.display = t === tab ? 'block' : 'none';
-    });
+    document.getElementById('panelTg').style.display = tab === 'tg' ? 'block' : 'none';
+    document.getElementById('panelEm').style.display = tab === 'em' ? 'block' : 'none';
     const on  = ';border:1px solid rgba(0,212,255,.5);background:rgba(0,212,255,.08);color:var(--cyan);font-weight:700;';
     const off = ';border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text-dim);font-weight:400;';
     document.getElementById('tabTg').style.cssText += tab === 'tg' ? on : off;
     document.getElementById('tabEm').style.cssText += tab === 'em' ? on : off;
-    document.getElementById('tabWh').style.cssText += tab === 'wh' ? on : off;
 }
 
 function showStatus(elId, msg, ok) {
@@ -1195,7 +1123,7 @@ function showStatus(elId, msg, ok) {
 function updateLineBtnState() {
     const btn = document.getElementById('lineBtn');
     if (!btn) return;
-    const has = !!(localStorage.getItem(TG_TOK) || getWebhookUrl() || localStorage.getItem(EM_KEY));
+    const has = !!(localStorage.getItem(TG_TOK) || localStorage.getItem(EM_KEY));
     btn.textContent = has ? '📲 แจ้งเตือน ✅' : '📲 แจ้งเตือน+';
     btn.classList.toggle('on', has);
 }
