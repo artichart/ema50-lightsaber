@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMA50 Lightsaber — ระบบเทรดทองคำ XAUUSD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #ffd700;
+            --gold-dim: rgba(255,215,0,0.15);
+            --gold-border: rgba(255,215,0,0.25);
+            --cyan: #00d4ff;
+            --red: #ff4455;
+            --green: #00e87a;
+            --bg: #05050f;
+            --bg-card: #0b0b1e;
+            --bg-card2: #10102a;
+            --text: #dde0ff;
+            --text-dim: #7070a0;
+            --border: rgba(255,215,0,0.15);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Sarabun', sans-serif;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width:5px; }
+        ::-webkit-scrollbar-track { background:var(--bg); }
+        ::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:3px; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed; top:0; width:100%; z-index:200;
+            background: rgba(5,5,15,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            height: 60px;
+            display: flex; align-items:center; justify-content:space-between;
+            padding: 0 2rem;
+        }
+        .nav-brand {
+            display:flex; align-items:center; gap:10px;
+            font-family:'Rajdhani',sans-serif; font-size:1.35rem; font-weight:700;
+            background: linear-gradient(90deg, var(--gold), var(--cyan));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            letter-spacing:2px;
+        }
+        .saber-logo {
+            width:28px; height:40px; flex-shrink:0;
+            filter: drop-shadow(0 0 6px var(--cyan)) drop-shadow(0 0 12px var(--gold));
+            animation: saberLogoGlow 2.5s ease-in-out infinite;
+        }
+        @keyframes saberLogoGlow {
+            0%,100%{ filter: drop-shadow(0 0 5px var(--cyan)) drop-shadow(0 0 10px var(--gold)); }
+            50%{ filter: drop-shadow(0 0 10px var(--cyan)) drop-shadow(0 0 22px var(--gold)); }
+        }
+        .nav-links { display:flex; gap:1.5rem; list-style:none; }
+        .nav-links a { color:var(--text-dim); text-decoration:none; font-size:.88rem; transition:color .2s; }
+        .nav-links a:hover { color:var(--gold); }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height:100vh; display:flex; align-items:center; justify-content:center;
+            position:relative; overflow:hidden; padding-top:60px;
+        }
+        .hero-grid {
+            position:absolute; inset:0;
+            background-image:
+                linear-gradient(rgba(255,215,0,.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,215,0,.025) 1px, transparent 1px);
+            background-size:60px 60px;
+        }
+        .hero-glow {
+            position:absolute; width:600px; height:600px;
+            background: radial-gradient(circle, rgba(0,212,255,.06) 0%, transparent 65%);
+            top:50%; left:50%; transform:translate(-50%,-50%);
+            pointer-events:none;
+        }
+        .hero-saber {
+            position:absolute; left:50%; top:10%;
+            transform:translateX(-50%);
+            width:2px; height:55%;
+            background: linear-gradient(to bottom, transparent 0%, var(--cyan) 30%, var(--gold) 70%, transparent 100%);
+            box-shadow:0 0 16px var(--cyan), 0 0 32px var(--gold);
+            animation:saberPulse 3s ease-in-out infinite; opacity:.25;
+        }
+        @keyframes saberPulse {
+            0%,100%{opacity:.2;height:55%;}
+            50%{opacity:.45;height:58%;}
+        }
+        .hero-content { text-align:center; z-index:1; padding:2rem; }
+        .hero-chip {
+            display:inline-block; margin-bottom:1.25rem;
+            padding:5px 18px; border-radius:50px;
+            background:rgba(0,212,255,.08); border:1px solid rgba(0,212,255,.3);
+            color:var(--cyan); font-size:.8rem; letter-spacing:3px; text-transform:uppercase;
+        }
+        .hero-title {
+            font-family:'Rajdhani',sans-serif;
+            font-size: clamp(2.8rem,9vw,6.5rem);
+            font-weight:700; line-height:1; margin-bottom:.4rem;
+            background: linear-gradient(135deg,var(--gold) 0%,#fff8dc 45%,var(--cyan) 100%);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .hero-sub { font-size:clamp(.95rem,2.5vw,1.3rem); color:var(--text-dim); margin-bottom:2rem; }
+        .hero-sub b { color:var(--gold); }
+        .hero-kpis {
+            display:flex; gap:2.5rem; justify-content:center;
+            margin-bottom:2.5rem; flex-wrap:wrap;
+        }
+        .kpi-val {
+            font-family:'Rajdhani',sans-serif; font-size:2.2rem;
+            font-weight:700; color:var(--gold);
+        }
+        .kpi-lbl { font-size:.75rem; color:var(--text-dim); letter-spacing:1px; margin-top:2px; }
+        .hero-btns { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+        .btn-gold {
+            background:linear-gradient(135deg,#a07010,var(--gold));
+            color:#000; padding:13px 30px; border:none; border-radius:8px;
+            font-size:.95rem; font-weight:700; cursor:pointer; text-decoration:none;
+            transition:all .3s; box-shadow:0 4px 18px rgba(255,215,0,.25);
+        }
+        .btn-gold:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(255,215,0,.45); }
+        .btn-outline {
+            background:transparent; color:var(--cyan);
+            padding:13px 30px; border:1px solid var(--cyan); border-radius:8px;
+            font-size:.95rem; cursor:pointer; text-decoration:none; transition:all .3s;
+        }
+        .btn-outline:hover { background:rgba(0,212,255,.08); transform:translateY(-2px); }
+
+        /* ─── SECTION WRAPPER ─── */
+        .section-wrap { padding:5rem 2rem; max-width:1200px; margin:0 auto; }
+        .sec-hd { text-align:center; margin-bottom:3rem; }
+        .sec-hd h2 {
+            font-family:'Rajdhani',sans-serif; font-size:2.4rem; font-weight:700;
+            color:var(--gold); margin-bottom:.4rem;
+        }
+        .sec-hd p { color:var(--text-dim); font-size:1rem; }
+        .divider {
+            width:56px; height:3px; margin:.75rem auto;
+            background:linear-gradient(90deg,var(--gold),var(--cyan)); border-radius:2px;
+        }
+
+        /* ─── TRADING WINDOW ─── */
+        .tw-card {
+            background:var(--bg-card); border:1px solid var(--border); border-radius:16px;
+            padding:2rem; text-align:center; position:relative; overflow:hidden;
+        }
+        .tw-top-bar {
+            position:absolute; top:0; left:50%; transform:translateX(-50%);
+            width:180px; height:2px;
+            background:linear-gradient(90deg,transparent,var(--gold),transparent);
+        }
+        .status-pill {
+            display:inline-flex; align-items:center; gap:8px;
+            padding:7px 20px; border-radius:50px; font-weight:600; font-size:1rem;
+            margin-bottom:1rem;
+        }
+        .pill-open { background:rgba(0,232,122,.08); border:1px solid rgba(0,232,122,.35); color:var(--green); }
+        .pill-closed { background:rgba(255,68,85,.08); border:1px solid rgba(255,68,85,.35); color:var(--red); }
+        .pill-dot { width:9px; height:9px; border-radius:50%; }
+        .pill-open .pill-dot { background:var(--green); animation:blink 1.4s infinite; }
+        .pill-closed .pill-dot { background:var(--red); }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+        .tw-clock {
+            font-family:'Rajdhani',sans-serif; font-size:clamp(2.5rem,6vw,4rem);
+            font-weight:700; color:var(--gold); line-height:1; margin:.25rem 0;
+        }
+        .tw-tz { font-size:.82rem; color:var(--text-dim); }
+        .tw-cd-label { font-size:.9rem; color:var(--text-dim); margin-top:.6rem; }
+        .tw-cd-val {
+            font-family:'Rajdhani',sans-serif; font-size:1.9rem;
+            font-weight:600; color:var(--cyan);
+        }
+        .kz-row {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+            gap:.85rem; margin-top:1.5rem;
+        }
+        .kz-cell {
+            background:var(--bg-card2); border-radius:10px; padding:.9rem;
+            border:1px solid rgba(255,255,255,.05); transition:all .2s;
+        }
+        .kz-cell.on { border-color:rgba(0,232,122,.35); background:rgba(0,232,122,.05); }
+        .kz-cell-name { font-size:.7rem; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; }
+        .kz-cell-time { font-family:'Rajdhani',sans-serif; font-size:1.05rem; font-weight:600; }
+        .kz-cell.on .kz-cell-name { color:var(--green); }
+        .kz-cell.on .kz-cell-time { color:var(--green); }
+        .kz-cell.target { border-color:var(--gold-border); }
+        .kz-cell.target .kz-cell-name { color:var(--gold); }
+
+        /* ─── RULES ─── */
+        .rules-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.25rem; }
+        .rule-card {
+            background:var(--bg-card); border:1px solid var(--border); border-radius:12px;
+            padding:1.4rem; position:relative; overflow:hidden; transition:all .3s;
+        }
+        .rule-card:hover { border-color:rgba(255,215,0,.4); transform:translateY(-2px); }
+        .rule-card::after {
+            content:''; position:absolute; top:0; left:0; right:0; height:2px;
+            background:linear-gradient(90deg,var(--gold),transparent);
+            opacity:0; transition:opacity .3s;
+        }
+        .rule-card:hover::after { opacity:1; }
+        .rule-num {
+            font-family:'Rajdhani',sans-serif; font-size:2.8rem; font-weight:700;
+            color:var(--gold-dim); line-height:1; margin-bottom:.35rem;
+        }
+        .rule-title { font-size:1.05rem; font-weight:700; color:var(--gold); margin-bottom:.4rem; }
+        .rule-body { font-size:.9rem; color:var(--text-dim); line-height:1.65; }
+        .rule-val {
+            font-family:'Rajdhani',sans-serif; font-size:1.7rem; font-weight:700; color:var(--cyan);
+        }
+
+        /* ─── CHECKLIST ─── */
+        .cl-wrap {
+            background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:2rem;
+        }
+        .cl-head {
+            display:flex; align-items:center; justify-content:space-between;
+            margin-bottom:1.5rem; flex-wrap:wrap; gap:.75rem;
+        }
+        .cl-head-title { font-family:'Rajdhani',sans-serif; font-size:1.5rem; font-weight:700; color:var(--gold); }
+        .cl-score { font-size:.9rem; color:var(--text-dim); }
+        .cl-score b { font-family:'Rajdhani',sans-serif; font-size:1.3rem; color:var(--gold); }
+        .progress-bar {
+            height:4px; background:rgba(255,255,255,.06); border-radius:2px;
+            margin-bottom:1.5rem; overflow:hidden;
+        }
+        .progress-fill {
+            height:100%; background:linear-gradient(90deg,var(--gold),var(--cyan));
+            border-radius:2px; transition:width .4s ease;
+        }
+        .cl-item {
+            display:flex; align-items:center; gap:.85rem;
+            padding:.9rem 1rem; background:var(--bg-card2); border-radius:8px;
+            border:1px solid rgba(255,255,255,.04); margin-bottom:.6rem;
+            cursor:pointer; transition:all .2s; user-select:none;
+        }
+        .cl-item:hover { border-color:rgba(255,215,0,.18); }
+        .cl-item.done { border-color:rgba(0,232,122,.28); background:rgba(0,232,122,.04); }
+        .cl-box {
+            width:22px; height:22px; border:2px solid var(--text-dim); border-radius:5px;
+            flex-shrink:0; display:flex; align-items:center; justify-content:center;
+            transition:all .2s; font-size:13px; color:#000;
+        }
+        .cl-item.done .cl-box { background:var(--green); border-color:var(--green); }
+        .cl-chk { display:none; }
+        .cl-item.done .cl-chk { display:block; }
+        .cl-label { flex:1; font-size:.92rem; }
+        .cl-badge {
+            font-size:.75rem; padding:3px 10px; border-radius:4px;
+            background:var(--gold-dim); color:var(--gold); white-space:nowrap;
+        }
+        .trend-btns { display:flex; gap:6px; }
+        .tb {
+            padding:4px 12px; border-radius:20px; font-size:.78rem; font-weight:600;
+            border:1px solid rgba(255,255,255,.1); cursor:pointer;
+            background:rgba(255,255,255,.04); color:var(--text-dim); transition:all .2s;
+        }
+        .tb.bull.on { background:rgba(0,232,122,.15); border-color:var(--green); color:var(--green); }
+        .tb.bear.on { background:rgba(255,68,85,.15); border-color:var(--red); color:var(--red); }
+        .result-banner {
+            margin-top:1.25rem; padding:1.15rem 1.5rem; border-radius:10px;
+            text-align:center; font-weight:700; font-size:1.05rem; display:none;
+        }
+        .banner-go { background:rgba(0,232,122,.08); border:1px solid rgba(0,232,122,.35); color:var(--green); display:block; }
+        .banner-wait { background:rgba(255,215,0,.06); border:1px solid rgba(255,215,0,.25); color:var(--gold); display:block; }
+        .banner-no { background:rgba(255,68,85,.06); border:1px solid rgba(255,68,85,.25); color:var(--red); display:block; }
+
+        label { display:block; font-size:.82rem; color:var(--text-dim); margin-bottom:5px; letter-spacing:.4px; }
+        input[type=number], select {
+            width:100%; background:var(--bg-card2); border:1px solid rgba(255,255,255,.08);
+            border-radius:8px; padding:9px 13px; color:var(--text);
+            font-size:.95rem; font-family:'Rajdhani',sans-serif; font-weight:500;
+            transition:border-color .2s;
+        }
+        input[type=number]:focus, select:focus { outline:none; border-color:var(--gold); }
+
+        /* ─── EDUCATION ─── */
+        .edu-tabs { display:flex; gap:.75rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+        .etab {
+            padding:7px 18px; border-radius:8px; border:1px solid rgba(255,255,255,.08);
+            background:var(--bg-card2); color:var(--text-dim); cursor:pointer;
+            font-size:.87rem; transition:all .2s;
+        }
+        .etab.on { background:var(--gold-dim); border-color:var(--gold-border); color:var(--gold); }
+        .epanel {
+            display:none; background:var(--bg-card); border:1px solid var(--border);
+            border-radius:16px; padding:2rem; animation:fade .3s ease;
+        }
+        .epanel.on { display:block; }
+        @keyframes fade { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+        .epanel h3 {
+            font-family:'Rajdhani',sans-serif; font-size:1.7rem; color:var(--gold); margin-bottom:.9rem;
+        }
+        .epanel p { color:var(--text-dim); line-height:1.8; margin-bottom:.9rem; }
+        .hl {
+            background:rgba(0,212,255,.04); border-left:3px solid var(--cyan);
+            padding:.9rem 1.25rem; border-radius:0 8px 8px 0; margin:1rem 0;
+        }
+        .hl p { color:var(--text); margin:0; }
+        ul.elist { list-style:none; display:grid; gap:.6rem; margin-top:.75rem; }
+        ul.elist li { display:flex; gap:10px; color:var(--text-dim); line-height:1.65; font-size:.92rem; }
+        ul.elist li::before { content:'▸'; color:var(--gold); flex-shrink:0; margin-top:2px; }
+        .tf-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:.85rem; margin-top:1.25rem; }
+        .tf-cell {
+            background:var(--bg-card2); border-radius:10px; padding:1.1rem; text-align:center;
+            border:1px solid rgba(255,255,255,.05);
+        }
+        .tf-label { font-family:'Rajdhani',sans-serif; font-size:1.8rem; font-weight:700; }
+        .tf-role { font-size:.72rem; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; }
+
+        /* ─── JOURNAL ─── */
+        .journal-wrap { display:grid; gap:1.5rem; }
+        .journal-form {
+            background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:2rem;
+        }
+        .journal-form h3 {
+            font-family:'Rajdhani',sans-serif; font-size:1.4rem; color:var(--gold);
+            margin-bottom:1.25rem; display:flex; align-items:center; gap:8px;
+        }
+        .jform-grid {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:.85rem;
+        }
+        .jfg label { display:block; font-size:.8rem; color:var(--text-dim); margin-bottom:4px; }
+        .jfg input, .jfg select, .jfg textarea {
+            width:100%; background:var(--bg-card2); border:1px solid rgba(255,255,255,.08);
+            border-radius:8px; padding:9px 12px; color:var(--text); font-size:.92rem;
+            font-family:'Sarabun',sans-serif; transition:border-color .2s;
+        }
+        .jfg input:focus, .jfg select:focus, .jfg textarea:focus { outline:none; border-color:var(--gold); }
+        .jfg textarea { resize:vertical; min-height:64px; }
+        .jfg.full { grid-column:1/-1; }
+        .jform-actions { display:flex; gap:.75rem; margin-top:1.25rem; flex-wrap:wrap; }
+        .btn-save {
+            background:linear-gradient(135deg,#9a6e00,var(--gold)); color:#000;
+            padding:10px 28px; border:none; border-radius:8px; font-weight:700;
+            cursor:pointer; font-size:.95rem; font-family:'Sarabun',sans-serif; transition:all .2s;
+        }
+        .btn-save:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(255,215,0,.35); }
+        .btn-export {
+            background:transparent; color:var(--cyan); padding:10px 20px;
+            border:1px solid var(--cyan); border-radius:8px; cursor:pointer;
+            font-size:.88rem; transition:all .2s;
+        }
+        .btn-export:hover { background:rgba(0,212,255,.08); }
+        .btn-clear {
+            background:transparent; color:var(--red); padding:10px 20px;
+            border:1px solid rgba(255,68,85,.3); border-radius:8px; cursor:pointer;
+            font-size:.88rem; transition:all .2s; margin-left:auto;
+        }
+        .btn-clear:hover { background:rgba(255,68,85,.08); }
+
+        /* Stats row */
+        .jstats {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+            gap:.85rem;
+        }
+        .jstat {
+            background:var(--bg-card); border:1px solid var(--border); border-radius:12px;
+            padding:1.1rem; text-align:center;
+        }
+        .jstat-val {
+            font-family:'Rajdhani',sans-serif; font-size:1.9rem; font-weight:700; line-height:1;
+        }
+        .jstat-lbl { font-size:.72rem; color:var(--text-dim); letter-spacing:1px; margin-top:4px; }
+
+        /* Table */
+        .jtable-wrap {
+            background:var(--bg-card); border:1px solid var(--border); border-radius:16px;
+            overflow:hidden;
+        }
+        .jtable-head {
+            display:flex; align-items:center; justify-content:space-between;
+            padding:1.25rem 1.5rem; border-bottom:1px solid var(--border);
+        }
+        .jtable-head h3 {
+            font-family:'Rajdhani',sans-serif; font-size:1.3rem; color:var(--gold);
+        }
+        .jtable { width:100%; border-collapse:collapse; font-size:.85rem; }
+        .jtable th {
+            padding:10px 14px; text-align:left; font-size:.72rem;
+            color:var(--text-dim); letter-spacing:1px; text-transform:uppercase;
+            border-bottom:1px solid rgba(255,255,255,.06); background:var(--bg-card2);
+        }
+        .jtable td { padding:10px 14px; border-bottom:1px solid rgba(255,255,255,.04); vertical-align:middle; }
+        .jtable tr:last-child td { border-bottom:none; }
+        .jtable tr:hover td { background:rgba(255,255,255,.02); }
+        .badge-buy { background:rgba(0,232,122,.12); color:var(--green); padding:3px 10px; border-radius:4px; font-size:.78rem; font-weight:700; }
+        .badge-sell { background:rgba(255,68,85,.12); color:var(--red); padding:3px 10px; border-radius:4px; font-size:.78rem; font-weight:700; }
+        .badge-win { color:var(--green); font-weight:700; }
+        .badge-loss { color:var(--red); font-weight:700; }
+        .badge-be { color:var(--text-dim); font-weight:700; }
+        .pnl-pos { color:var(--green); font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:700; }
+        .pnl-neg { color:var(--red); font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:700; }
+        .del-btn {
+            background:none; border:none; color:var(--text-dim); cursor:pointer;
+            font-size:1rem; padding:4px 8px; border-radius:4px; transition:all .2s;
+        }
+        .del-btn:hover { color:var(--red); background:rgba(255,68,85,.1); }
+        .empty-row td { text-align:center; color:var(--text-dim); padding:2.5rem; font-size:.9rem; }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background:var(--bg-card); border-top:1px solid var(--border);
+            text-align:center; padding:1.75rem; color:var(--text-dim); font-size:.82rem;
+        }
+        footer strong { color:var(--gold); }
+
+        /* ─── RESPONSIVE ─── */
+        @media(max-width:768px) {
+            .nav-links { display:none; }
+            .section-wrap { padding:3rem 1rem; }
+            .rules-grid { grid-template-columns:1fr; }
+            .calc-grid { grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav>
+    <div class="nav-brand">
+        <svg class="saber-logo" viewBox="0 0 22 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="bladeGlow" x="-100%" y="-5%" width="300%" height="110%">
+                    <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <linearGradient id="bG" x1="11" y1="2" x2="11" y2="40" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+                    <stop offset="8%" stop-color="#ffffff"/>
+                    <stop offset="50%" stop-color="#00d4ff"/>
+                    <stop offset="100%" stop-color="#00aaee"/>
+                </linearGradient>
+                <linearGradient id="hG" x1="11" y1="42" x2="11" y2="70" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#888"/>
+                    <stop offset="100%" stop-color="#333"/>
+                </linearGradient>
+            </defs>
+            <!-- Blade outer glow -->
+            <rect x="8" y="4" width="6" height="36" rx="3" fill="#00d4ff" opacity="0.25" filter="url(#bladeGlow)"/>
+            <!-- Blade mid glow -->
+            <rect x="9.5" y="3" width="3" height="37" rx="1.5" fill="#00d4ff" opacity="0.5"/>
+            <!-- Blade core (white) -->
+            <rect x="10.2" y="2" width="1.6" height="38" rx="0.8" fill="white" opacity="0.95"/>
+            <!-- Blade tip rounded -->
+            <ellipse cx="11" cy="3" rx="1.5" ry="2" fill="white" opacity="0.9"/>
+
+            <!-- Emitter collar -->
+            <rect x="7" y="39" width="8" height="3.5" rx="1" fill="#aaa"/>
+            <rect x="7.5" y="40" width="7" height="1.5" rx="0.5" fill="#ccc"/>
+
+            <!-- Hilt body -->
+            <rect x="8" y="42.5" width="6" height="20" rx="1.5" fill="url(#hG)"/>
+            <!-- Hilt grip rings -->
+            <rect x="7.5" y="45" width="7" height="1.2" rx="0.6" fill="#555"/>
+            <rect x="7.5" y="48" width="7" height="1.2" rx="0.6" fill="#555"/>
+            <rect x="7.5" y="51" width="7" height="1.2" rx="0.6" fill="#555"/>
+            <!-- Activation button -->
+            <rect x="13.5" y="54" width="2" height="3" rx="1" fill="#ffd700"/>
+
+            <!-- Pommel -->
+            <rect x="8.5" y="62.5" width="5" height="3" rx="1" fill="#444"/>
+            <ellipse cx="11" cy="65.5" rx="3" ry="1.5" fill="#333"/>
+        </svg>
+        EMA50 LIGHTSABER
+    </div>
+    <ul class="nav-links">
+        <li><a href="#window">หน้าต่างเทรด</a></li>
+        <li><a href="#rules">กฎระบบ</a></li>
+        <li><a href="#checklist">Checklist</a></li>
+
+        <li><a href="#journal">บันทึกเทรด</a></li>
+        <li><a href="#edu">ความรู้</a></li>
+    </ul>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-saber"></div>
+    <div class="hero-content">
+        <div class="hero-chip">XAUUSD Gold Trading System</div>
+        <h1 class="hero-title">EMA50 LIGHTSABER</h1>
+        <p class="hero-sub">มีแผน มีวินัย มีระบบ <b>มีชัย</b></p>
+        <div class="hero-kpis">
+            <div><div class="kpi-val">2%</div><div class="kpi-lbl">Risk/Trade</div></div>
+            <div><div class="kpi-val">1:1</div><div class="kpi-lbl">Min RR</div></div>
+            <div><div class="kpi-val">1</div><div class="kpi-lbl">Trade/Day</div></div>
+            <div><div class="kpi-val">3H</div><div class="kpi-lbl">Trading Window</div></div>
+        </div>
+        <div class="hero-btns">
+            <a href="#checklist" class="btn-gold">เปิด Pre-Trade Checklist</a>
+
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ TRADING WINDOW ═══════════ -->
+<div id="window" class="section-wrap">
+    <div class="sec-hd">
+        <h2>หน้าต่างเวลาเทรด</h2>
+        <div class="divider"></div>
+        <p>New York AM Session — เวลาไทย (UTC+7)</p>
+    </div>
+    <div class="tw-card">
+        <div class="tw-top-bar"></div>
+        <div class="status-pill pill-closed" id="statusPill">
+            <div class="pill-dot"></div>
+            <span id="statusTxt">กำลังโหลด...</span>
+        </div>
+        <div class="tw-clock" id="thaiClock">--:--:--</div>
+        <div class="tw-tz">เวลาประเทศไทย</div>
+        <div class="tw-cd-label" id="cdLabel">เปิดหน้าต่างในอีก</div>
+        <div class="tw-cd-val" id="cdVal">--:--:--</div>
+        <div class="kz-row">
+            <div class="kz-cell" id="kz0">
+                <div class="kz-cell-name">Asian</div>
+                <div class="kz-cell-time">08:00–12:00</div>
+            </div>
+            <div class="kz-cell" id="kz1">
+                <div class="kz-cell-name">London</div>
+                <div class="kz-cell-time">14:00–17:00</div>
+            </div>
+            <div class="kz-cell target" id="kz2">
+                <div class="kz-cell-name">🎯 เวลาเทรด (NY AM)</div>
+                <div class="kz-cell-time">20:00–23:00</div>
+            </div>
+            <div class="kz-cell" id="kz3">
+                <div class="kz-cell-name">New York PM</div>
+                <div class="kz-cell-time">01:30–04:00</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ 7 RULES ═══════════ -->
+<div id="rules" class="section-wrap">
+    <div class="sec-hd">
+        <h2>7 กฎระบบ EMA50 Lightsaber</h2>
+        <div class="divider"></div>
+        <p>ทำตามกฎทุกข้อ — ไม่มีข้อยกเว้น</p>
+    </div>
+    <div class="rules-grid">
+        <div class="rule-card">
+            <div class="rule-num">01</div>
+            <div class="rule-title">⏰ หน้าต่างเวลา</div>
+            <div class="rule-body">เทรดเฉพาะในช่วง <span class="rule-val">20:00–23:00</span> น. เวลาไทย (New York AM Session) เท่านั้น</div>
+        </div>
+        <div class="rule-card">
+            <div class="rule-num">02</div>
+            <div class="rule-title">💰 Money Management 2%</div>
+            <div class="rule-body">Risk ต่อไม้ไม่เกิน <span class="rule-val">2%</span> ของพอร์ต คำนวณ Lot Size จาก SL เสมอก่อน Order</div>
+        </div>
+        <div class="rule-card">
+            <div class="rule-num">03</div>
+            <div class="rule-title">📈 Triple Timeframe Trend</div>
+            <div class="rule-body">ตรวจ Trend <span class="rule-val">D1 → H4 → H1</span> ให้ชี้ทิศทางเดียวกันทั้ง 3 Timeframe</div>
+        </div>
+        <div class="rule-card">
+            <div class="rule-num">04</div>
+            <div class="rule-title">🕯️ Trigger Candle M15</div>
+            <div class="rule-body">รอแท่งเทียน M15 ขนาด <span class="rule-val">&gt; 1,000 จุด</span> เป็นสัญญาณ Trigger ก่อนเข้า</div>
+        </div>
+        <div class="rule-card">
+            <div class="rule-num">05</div>
+            <div class="rule-title">🎯 ตั้ง SL &amp; TP ทันที</div>
+            <div class="rule-body">เข้าแล้วตั้ง <span class="rule-val">SL = 2×ATR</span> และ <span class="rule-val">TP = 2×ATR</span> ทันที — ไม่รีรอ</div>
+        </div>
+        <div class="rule-card">
+            <div class="rule-num">06</div>
+            <div class="rule-title">🔂 1 ไม้ / วัน</div>
+            <div class="rule-body">เทรดได้เพียง <span class="rule-val">1 ไม้</span> ต่อวัน ไม่ว่า Win หรือ Lose ให้หยุดทันที</div>
+        </div>
+        <div class="rule-card">
+            <div class="rule-num">07</div>
+            <div class="rule-title">🚫 ห้ามขยับ SL/TP</div>
+            <div class="rule-body">หลังตั้ง SL และ TP แล้ว <span class="rule-val">ห้ามแตะ</span> ปล่อยระบบทำงาน ห้าม Override ด้วยอารมณ์</div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ CHECKLIST ═══════════ -->
+<div id="checklist" class="section-wrap">
+    <div class="sec-hd">
+        <h2>Pre-Trade Checklist</h2>
+        <div class="divider"></div>
+        <p>ต้องผ่านครบ 7 ข้อก่อนกด BUY / SELL</p>
+    </div>
+    <div class="cl-wrap">
+        <div class="cl-head">
+            <div class="cl-head-title">เช็คลิสต์ก่อนเทรด</div>
+            <div class="cl-score">ผ่าน <b id="ckCount">0</b> / 7 ข้อ</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+
+        <!-- 1 Time -->
+        <div class="cl-item" id="ci0" onclick="ckToggle(0)">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">⏰ เวลาปัจจุบันอยู่ในช่วง 20:00–23:00 น.</div>
+            <div class="cl-badge" id="timeBadge">ตรวจสอบ</div>
+        </div>
+
+        <!-- 2 D1 -->
+        <div class="cl-item" id="ci1">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">📊 เทรนด์ D1 (Daily)</div>
+            <div class="trend-btns">
+                <button class="tb bull" onclick="setTF(0,'bull',event)">▲ Bull</button>
+                <button class="tb bear" onclick="setTF(0,'bear',event)">▼ Bear</button>
+            </div>
+        </div>
+
+        <!-- 3 H4 -->
+        <div class="cl-item" id="ci2">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">📊 เทรนด์ H4 (4 Hour)</div>
+            <div class="trend-btns">
+                <button class="tb bull" onclick="setTF(1,'bull',event)">▲ Bull</button>
+                <button class="tb bear" onclick="setTF(1,'bear',event)">▼ Bear</button>
+            </div>
+        </div>
+
+        <!-- 4 H1 -->
+        <div class="cl-item" id="ci3">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">📊 เทรนด์ H1 (1 Hour)</div>
+            <div class="trend-btns">
+                <button class="tb bull" onclick="setTF(2,'bull',event)">▲ Bull</button>
+                <button class="tb bear" onclick="setTF(2,'bear',event)">▼ Bear</button>
+            </div>
+        </div>
+
+        <!-- 5 Alignment -->
+        <div class="cl-item" id="ci4">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">✅ D1, H4, H1 Align ทิศทางเดียวกัน (Triple Confirmation)</div>
+            <div class="cl-badge" id="alignBadge">รอ</div>
+        </div>
+
+        <!-- 6 M15 Trigger -->
+        <div class="cl-item" id="ci5" onclick="ckToggle(5)">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">🕯️ แท่งเทียน M15 ยาวกว่า 1,000 จุด (Trigger)</div>
+            <div class="cl-badge">Manual</div>
+        </div>
+
+        <!-- 7 1 trade/day -->
+        <div class="cl-item" id="ci6" onclick="ckToggle(6)">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">🔂 วันนี้ยังไม่ได้เทรด (สูงสุด 1 ไม้/วัน)</div>
+            <div class="cl-badge">Manual</div>
+        </div>
+
+        <div id="resultBanner" class="result-banner"></div>
+
+        <div style="margin-top:1rem;text-align:right;">
+            <button onclick="resetCL()" style="background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--text-dim);padding:6px 18px;border-radius:6px;cursor:pointer;font-size:.82rem;">↺ Reset</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════ JOURNAL ═══════════ -->
+<div id="journal" class="section-wrap">
+    <div class="sec-hd">
+        <h2>บันทึกการเทรด</h2>
+        <div class="divider"></div>
+        <p>Trade Journal — บันทึกทุกไม้ เรียนรู้จากข้อมูลจริง</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="jstats" id="jstats" style="margin-bottom:1.5rem">
+        <div class="jstat"><div class="jstat-val" id="js-total" style="color:var(--gold)">0</div><div class="jstat-lbl">ไม้ทั้งหมด</div></div>
+        <div class="jstat"><div class="jstat-val" id="js-win" style="color:var(--green)">0</div><div class="jstat-lbl">Win</div></div>
+        <div class="jstat"><div class="jstat-val" id="js-loss" style="color:var(--red)">0</div><div class="jstat-lbl">Loss</div></div>
+        <div class="jstat"><div class="jstat-val" id="js-wr" style="color:var(--cyan)">0%</div><div class="jstat-lbl">Win Rate</div></div>
+        <div class="jstat"><div class="jstat-val" id="js-pnl" style="color:var(--gold)">$0</div><div class="jstat-lbl">P&L รวม</div></div>
+    </div>
+
+    <div class="journal-wrap">
+        <!-- Form -->
+        <div class="journal-form">
+            <h3>📝 บันทึกไม้เทรด</h3>
+            <div class="jform-grid">
+                <div class="jfg">
+                    <label>วันที่</label>
+                    <input type="date" id="j_date">
+                </div>
+                <div class="jfg">
+                    <label>ทิศทาง</label>
+                    <select id="j_dir">
+                        <option value="BUY">BUY</option>
+                        <option value="SELL">SELL</option>
+                    </select>
+                </div>
+                <div class="jfg">
+                    <label>Entry ($)</label>
+                    <input type="number" id="j_entry" placeholder="3350.00" step="0.01">
+                </div>
+                <div class="jfg">
+                    <label>Stop Loss ($)</label>
+                    <input type="number" id="j_sl" placeholder="3325.00" step="0.01">
+                </div>
+                <div class="jfg">
+                    <label>Take Profit ($)</label>
+                    <input type="number" id="j_tp" placeholder="3375.00" step="0.01">
+                </div>
+                <div class="jfg">
+                    <label>ราคาปิด ($)</label>
+                    <input type="number" id="j_close" placeholder="3375.00" step="0.01">
+                </div>
+                <div class="jfg">
+                    <label>ผลลัพธ์</label>
+                    <select id="j_result">
+                        <option value="WIN">WIN</option>
+                        <option value="LOSS">LOSS</option>
+                        <option value="BE">Break Even</option>
+                    </select>
+                </div>
+                <div class="jfg">
+                    <label>P&amp;L ($)</label>
+                    <input type="number" id="j_pnl" placeholder="250.00" step="0.01">
+                </div>
+                <div class="jfg full">
+                    <label>โน้ต / เหตุผล</label>
+                    <textarea id="j_note" placeholder="เช่น เข้าตาม Trigger M15 ที่ 20:30 น. ทุก TF Bullish..."></textarea>
+                </div>
+            </div>
+            <div class="jform-actions">
+                <button class="btn-save" onclick="saveJournal()">💾 บันทึก</button>
+                <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
+                <button class="btn-clear" onclick="clearAll()">🗑 ล้างข้อมูลทั้งหมด</button>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="jtable-wrap">
+            <div class="jtable-head">
+                <h3>📋 ประวัติการเทรด</h3>
+                <span id="jtrade-count" style="font-size:.82rem;color:var(--text-dim)"></span>
+            </div>
+            <div style="overflow-x:auto">
+                <table class="jtable">
+                    <thead>
+                        <tr>
+                            <th>วันที่</th>
+                            <th>ทิศทาง</th>
+                            <th>Entry</th>
+                            <th>SL</th>
+                            <th>TP</th>
+                            <th>ปิดที่</th>
+                            <th>ผล</th>
+                            <th>P&amp;L</th>
+                            <th>โน้ต</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="jtbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ EDUCATION ═══════════ -->
+<div id="edu" class="section-wrap">
+    <div class="sec-hd">
+        <h2>ความรู้ระบบ EMA50 Lightsaber</h2>
+        <div class="divider"></div>
+        <p>เข้าใจเครื่องมือและแนวคิดเบื้องหลัง</p>
+    </div>
+    <div class="edu-tabs">
+        <div class="etab on" onclick="eTab('overview',this)">ภาพรวมระบบ</div>
+        <div class="etab" onclick="eTab('ema',this)">EMA 50</div>
+        <div class="etab" onclick="eTab('bb',this)">Bollinger Bands</div>
+        <div class="etab" onclick="eTab('atr',this)">ATR</div>
+        <div class="etab" onclick="eTab('ict',this)">ICT Killzones</div>
+        <div class="etab" onclick="eTab('mtf',this)">Multi-Timeframe</div>
+    </div>
+
+    <div id="ep-overview" class="epanel on">
+        <h3>ภาพรวม EMA50 Lightsaber System</h3>
+        <p>EMA50 Lightsaber คือระบบเทรดทองคำ XAUUSD ที่ผสมแนวคิด ICT (Inner Circle Trader) กับ Multi-Timeframe Analysis และ Technical Indicators เพื่อหาจุดเข้าที่มีคุณภาพสูงใน New York Session</p>
+        <div class="hl"><p><strong>หลักการ:</strong> ยืนยันเทรนด์จาก Top-Down → รอหน้าต่างเวลาที่ถูก → รอ Trigger ชัดเจน → บริหาร Risk เคร่งครัด</p></div>
+        <div class="tf-row">
+            <div class="tf-cell"><div class="tf-label" style="color:var(--gold)">D1</div><div class="tf-role">เทรนด์หลัก</div></div>
+            <div class="tf-cell"><div class="tf-label" style="color:#ff9944">H4</div><div class="tf-role">เทรนด์กลาง</div></div>
+            <div class="tf-cell"><div class="tf-label" style="color:var(--cyan)">H1</div><div class="tf-role">เทรนด์รอง</div></div>
+            <div class="tf-cell"><div class="tf-label" style="color:var(--green)">M15</div><div class="tf-role">Trigger Entry</div></div>
+        </div>
+    </div>
+
+    <div id="ep-ema" class="epanel">
+        <h3>EMA 50 — เส้นแนวโน้มหลัก</h3>
+        <p>Exponential Moving Average 50 คือเส้นค่าเฉลี่ยที่ให้น้ำหนักราคาล่าสุดมากกว่า ใช้เป็นตัวชี้ทิศทาง Bias หลักของระบบในทุก Timeframe</p>
+        <div class="hl"><p><strong>อ่านสัญญาณ:</strong> ราคา > EMA 50 = Bullish Bias &nbsp;|&nbsp; ราคา &lt; EMA 50 = Bearish Bias</p></div>
+        <ul class="elist">
+            <li>ใช้บน D1, H4, H1 — ราคาต้องอยู่ด้านเดียวกันของ EMA ทั้ง 3 TF</li>
+            <li>EMA 50 ทำหน้าที่เป็น Dynamic Support / Resistance</li>
+            <li>ระบบนี้ใช้ EMA 50 แบบ Close (คำนวณจากราคาปิด)</li>
+            <li>เมื่อราคาดึงกลับมาที่ EMA 50 ใน H1 คือโซน High Probability Entry</li>
+        </ul>
+    </div>
+
+    <div id="ep-bb" class="epanel">
+        <h3>Bollinger Bands BB 20 SMA 2 — วัด Volatility</h3>
+        <p>Bollinger Bands ประกอบด้วย Middle Band (SMA 20), Upper Band (+2 SD) และ Lower Band (-2 SD) ใช้วัดความผันผวนและ Momentum ของตลาด</p>
+        <div class="hl"><p><strong>ใน EMA50 Lightsaber:</strong> ดู Band Squeeze รอ Breakout และยืนยัน Momentum ของแท่ง Trigger M15</p></div>
+        <ul class="elist">
+            <li>Band แคบ (Squeeze) = ตลาดสะสมพลัง — เตรียมรอ Breakout</li>
+            <li>Band กว้าง = Momentum สูง เหมาะเทรด Trend Following</li>
+            <li>แท่ง Trigger ที่ทะลุ Upper/Lower Band ยิ่งยืนยัน Momentum</li>
+            <li>ราคานอก Band = Overextension — ระวัง Reversal</li>
+        </ul>
+    </div>
+
+    <div id="ep-atr" class="epanel">
+        <h3>ATR — Average True Range วัดระยะ SL &amp; TP</h3>
+        <p>Average True Range (ATR) คือ Indicator ที่วัดความผันผวนของราคาในแต่ละช่วงเวลา ใช้เป็นเกณฑ์กำหนดระยะ Stop Loss และ Take Profit แบบ Dynamic ตามสภาพตลาดจริง</p>
+        <div class="hl"><p><strong>ใน EMA50 Lightsaber:</strong> ตั้ง SL = 2×ATR และ TP = 2×ATR จากราคา Entry ทันทีที่เข้าเทรด</p></div>
+        <ul class="elist">
+            <li>ATR คำนวณจาก True Range เฉลี่ย 14 แท่งล่าสุด (ค่าเริ่มต้น)</li>
+            <li>ค่า ATR สูง = ตลาดผันผวนมาก → SL/TP กว้างขึ้น</li>
+            <li>ค่า ATR ต่ำ = ตลาดนิ่ง → SL/TP แคบลง ระวัง Whipsaw</li>
+            <li><strong>SL = Entry ± 2×ATR</strong> — ป้องกัน Noise ในตลาด</li>
+            <li><strong>TP = Entry ± 2×ATR</strong> — RR 1:1 ขั้นต่ำ ไม่ขยับหลังตั้ง</li>
+            <li>หา ATR ได้จาก TradingView → Add Indicator → "ATR" เลือก Period 14</li>
+        </ul>
+    </div>
+
+    <div id="ep-ict" class="epanel">
+        <h3>ICT Killzones — ช่วงเวลา High Probability</h3>
+        <p>ICT Killzones คือช่วงเวลาที่ตลาดมีสภาพคล่องสูงและมักเกิด Price Movement ที่ชัดเจน กำหนดโดย Inner Circle Trader (Michael J. Huddleston)</p>
+        <div class="hl"><p><strong>EMA50 Lightsaber Target Zone:</strong> New York AM Killzone = 20:00–23:00 น. ไทย (8:00–11:00 AM EST)</p></div>
+        <ul class="elist">
+            <li><strong>Asian (08:00–12:00 TH):</strong> สภาพคล่องต่ำ ราคาเคลื่อนในช่วงแคบ — สร้าง Liquidity Pool</li>
+            <li><strong>London (14:00–17:00 TH):</strong> เริ่มมีสภาพคล่อง ราคาเริ่มมีทิศทาง</li>
+            <li><strong>New York AM (20:00–23:00 TH):</strong> สภาพคล่องสูงสุด — เป้าหมายระบบนี้</li>
+            <li><strong>New York PM (01:30–04:00 TH):</strong> สภาพคล่องลดลง หลีกเลี่ยง</li>
+        </ul>
+    </div>
+
+    <div id="ep-mtf" class="epanel">
+        <h3>Multi-Timeframe Analysis — วิเคราะห์ Top-Down</h3>
+        <p>การอ่านตลาดจาก Timeframe ใหญ่ไปเล็ก เพื่อให้แน่ใจว่าเทรดในทิศทางเดียวกับ Smart Money</p>
+        <div class="hl"><p><strong>Triple Confirmation Rule:</strong> D1 + H4 + H1 ต้องชี้ทิศทางเดียวกันก่อนเข้าเสมอ</p></div>
+        <ul class="elist">
+            <li><strong>D1:</strong> กำหนด Weekly Bias — Bull หรือ Bear สำหรับทั้งสัปดาห์</li>
+            <li><strong>H4:</strong> ยืนยัน Bias และหา Swing High/Low สำคัญ</li>
+            <li><strong>H1:</strong> หาจุด Entry Zone และยืนยัน Momentum</li>
+            <li><strong>M15:</strong> รอแท่ง Trigger > 1,000 จุดเป็นสัญญาณเข้า</li>
+            <li>ถ้า TF ใดไม่สอดคล้อง — Skip การเทรดในวันนั้นทันที</li>
+        </ul>
+    </div>
+
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+    <p><strong>EMA50 Lightsaber</strong> — ระบบเทรดทองคำ XAUUSD</p>
+    <p style="margin-top:6px;font-size:.78rem;">⚠️ การเทรดมีความเสี่ยงสูง ผลตอบแทนในอดีตไม่ได้รับประกันอนาคต โปรดศึกษาให้เข้าใจก่อนลงทุน</p>
+</footer>
+
+<script>
+/* ── CLOCK & WINDOW ── */
+function thaiNow() {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utc + 7 * 3600000);
+}
+
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function fmtDiff(ms) {
+    const s = Math.max(0, Math.floor(ms/1000));
+    return `${pad(Math.floor(s/3600))}:${pad(Math.floor(s%3600/60))}:${pad(s%60)}`;
+}
+
+function tickClock() {
+    const t = thaiNow();
+    const h = t.getHours(), m = t.getMinutes(), s = t.getSeconds();
+    document.getElementById('thaiClock').textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+
+    const totalMin = h * 60 + m;
+    const isOpen = totalMin >= 20*60 && totalMin < 23*60;
+
+    const pill = document.getElementById('statusPill');
+    const txt  = document.getElementById('statusTxt');
+    const lbl  = document.getElementById('cdLabel');
+    const val  = document.getElementById('cdVal');
+
+    pill.className = 'status-pill ' + (isOpen ? 'pill-open' : 'pill-closed');
+    txt.textContent = isOpen ? 'หน้าต่างเทรดเปิดอยู่' : 'หน้าต่างเทรดปิดอยู่';
+    lbl.textContent = isOpen ? 'ปิดในอีก' : 'เปิดในอีก';
+
+    const target = new Date(t);
+    if (isOpen) {
+        target.setHours(23, 0, 0, 0);
+    } else {
+        if (h >= 23) target.setDate(target.getDate() + 1);
+        target.setHours(20, 0, 0, 0);
+    }
+    val.textContent = fmtDiff(target - t);
+
+    /* Killzone highlights */
+    const Asian  = (h >= 8  && h < 12);
+    const London = (h >= 14 && h < 17);
+    const NYAM   = (totalMin >= 20*60 && totalMin < 23*60);
+    const NYPM   = (totalMin >= 90 && totalMin < 240);
+    document.getElementById('kz0').classList.toggle('on', Asian);
+    document.getElementById('kz1').classList.toggle('on', London);
+    document.getElementById('kz2').classList.toggle('on', NYAM);
+    document.getElementById('kz3').classList.toggle('on', NYPM);
+
+    /* Auto-update checklist time badge */
+    const badge = document.getElementById('timeBadge');
+    badge.textContent = isOpen ? '✓ ในเวลา' : '✗ นอกเวลา';
+    badge.style.background = isOpen ? 'rgba(0,232,122,.1)' : 'rgba(255,68,85,.08)';
+    badge.style.color = isOpen ? 'var(--green)' : 'var(--red)';
+
+    /* Auto-set checklist item 0 */
+    ckSet(0, isOpen, false);
+}
+
+
+/* ── CHECKLIST ── */
+const ck = [false,false,false,false,false,false,false];
+const tf = [null, null, null]; // D1, H4, H1
+
+function ckSet(i, val, redraw=true) {
+    ck[i] = val;
+    if (redraw) renderCL();
+}
+
+function ckToggle(i) {
+    if (i === 0) return; // time is auto
+    if (i === 4) return; // alignment is auto
+    ck[i] = !ck[i];
+    renderCL();
+}
+
+function setTF(i, dir, e) {
+    e.stopPropagation();
+    const ciIdx = i + 1; // checklist item index
+    const btns = document.getElementById('ci'+ciIdx).querySelectorAll('.tb');
+    btns.forEach(b => b.classList.remove('on'));
+    if (tf[i] === dir) {
+        tf[i] = null;
+        ck[ciIdx] = false;
+    } else {
+        tf[i] = dir;
+        ck[ciIdx] = true;
+        e.target.classList.add('on');
+    }
+    /* Check alignment */
+    const aligned = tf[0] && tf[1] && tf[2] && tf[0]===tf[1] && tf[1]===tf[2];
+    ck[4] = aligned;
+    const ab = document.getElementById('alignBadge');
+    if (aligned) {
+        ab.textContent = tf[0]==='bull' ? '✓ All Bullish' : '✓ All Bearish';
+        ab.style.color = tf[0]==='bull' ? 'var(--green)' : 'var(--red)';
+        ab.style.background = tf[0]==='bull' ? 'rgba(0,232,122,.1)' : 'rgba(255,68,85,.08)';
+    } else {
+        ab.textContent = 'รอ Alignment';
+        ab.style.color = '';
+        ab.style.background = '';
+    }
+    renderCL();
+}
+
+function renderCL() {
+    const total = ck.filter(Boolean).length;
+    document.getElementById('ckCount').textContent = total;
+    document.getElementById('progFill').style.width = (total/7*100)+'%';
+    ck.forEach((v,i) => {
+        document.getElementById('ci'+i).classList.toggle('done', v);
+    });
+    const banner = document.getElementById('resultBanner');
+    if (total === 7) {
+        const dir = tf[0]==='bull' ? 'BUY 🟢' : (tf[0]==='bear' ? 'SELL 🔴' : '');
+        banner.className = 'result-banner banner-go';
+        banner.textContent = `✅ ผ่านครบทุกเงื่อนไข! พร้อมเข้าเทรด ${dir} ได้เลย`;
+    } else if (total >= 4) {
+        banner.className = 'result-banner banner-wait';
+        banner.textContent = `⚠️ ยังไม่ผ่านครบ (${total}/7) — รอให้ครบทุกข้อก่อน`;
+    } else {
+        banner.className = 'result-banner banner-no';
+        banner.textContent = `❌ ไม่ผ่านเงื่อนไข (${total}/7) — ยังไม่ควรเข้าเทรด`;
+    }
+}
+
+function resetCL() {
+    for(let i=1;i<7;i++) ck[i]=false;
+    tf[0]=tf[1]=tf[2]=null;
+    document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+    const ab=document.getElementById('alignBadge');
+    ab.textContent='รอ'; ab.style.color=''; ab.style.background='';
+    renderCL();
+}
+
+
+
+
+/* ── EDUCATION TABS ── */
+const tabIds = ['overview','ema','bb','atr','ict','mtf'];
+function eTab(id, el) {
+    tabIds.forEach(t => {
+        document.getElementById('ep-'+t).classList.remove('on');
+    });
+    document.querySelectorAll('.etab').forEach(e => e.classList.remove('on'));
+    document.getElementById('ep-'+id).classList.add('on');
+    el.classList.add('on');
+}
+
+/* ── JOURNAL ── */
+const JKEY = 'ema50_journal';
+
+function loadTrades() {
+    return JSON.parse(localStorage.getItem(JKEY) || '[]');
+}
+
+function saveTrades(trades) {
+    localStorage.setItem(JKEY, JSON.stringify(trades));
+}
+
+function saveJournal() {
+    const date    = document.getElementById('j_date').value;
+    const dir     = document.getElementById('j_dir').value;
+    const entry   = parseFloat(document.getElementById('j_entry').value);
+    const sl      = parseFloat(document.getElementById('j_sl').value);
+    const tp      = parseFloat(document.getElementById('j_tp').value);
+    const close   = parseFloat(document.getElementById('j_close').value);
+    const result  = document.getElementById('j_result').value;
+    const pnl     = parseFloat(document.getElementById('j_pnl').value);
+    const note    = document.getElementById('j_note').value.trim();
+
+    if (!date || isNaN(entry)) { alert('กรุณากรอกวันที่และราคา Entry'); return; }
+
+    const trade = {
+        id: Date.now(),
+        date, dir, entry, sl, tp, close, result,
+        pnl: isNaN(pnl) ? 0 : pnl,
+        note
+    };
+
+    const trades = loadTrades();
+    trades.unshift(trade);
+    saveTrades(trades);
+    renderJournal();
+    clearForm();
+}
+
+function clearForm() {
+    ['j_entry','j_sl','j_tp','j_close','j_pnl','j_note'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('j_date').value = todayStr();
+    document.getElementById('j_dir').value = 'BUY';
+    document.getElementById('j_result').value = 'WIN';
+}
+
+function todayStr() {
+    const t = thaiNow();
+    return `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+}
+
+function deleteTrade(id) {
+    if (!confirm('ลบรายการนี้?')) return;
+    saveTrades(loadTrades().filter(t => t.id !== id));
+    renderJournal();
+}
+
+function clearAll() {
+    if (!confirm('ล้างข้อมูลทั้งหมด? ไม่สามารถกู้คืนได้')) return;
+    localStorage.removeItem(JKEY);
+    renderJournal();
+}
+
+function renderJournal() {
+    const trades = loadTrades();
+    const tbody = document.getElementById('jtbody');
+
+    if (trades.length === 0) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="10">ยังไม่มีรายการเทรด — กรอกฟอร์มด้านบนเพื่อเริ่มบันทึก</td></tr>';
+    } else {
+        tbody.innerHTML = trades.map(t => {
+            const pnlClass = t.pnl > 0 ? 'pnl-pos' : t.pnl < 0 ? 'pnl-neg' : '';
+            const pnlStr   = t.pnl > 0 ? `+$${t.pnl.toFixed(2)}` : t.pnl < 0 ? `-$${Math.abs(t.pnl).toFixed(2)}` : '$0';
+            const resClass = t.result === 'WIN' ? 'badge-win' : t.result === 'LOSS' ? 'badge-loss' : 'badge-be';
+            const dirBadge = t.dir === 'BUY'
+                ? `<span class="badge-buy">▲ BUY</span>`
+                : `<span class="badge-sell">▼ SELL</span>`;
+            return `<tr>
+                <td>${t.date}</td>
+                <td>${dirBadge}</td>
+                <td>$${(t.entry||0).toFixed(2)}</td>
+                <td style="color:var(--red)">$${(t.sl||0).toFixed(2)}</td>
+                <td style="color:var(--green)">$${(t.tp||0).toFixed(2)}</td>
+                <td>$${(t.close||0).toFixed(2)}</td>
+                <td class="${resClass}">${t.result}</td>
+                <td class="${pnlClass}">${pnlStr}</td>
+                <td style="color:var(--text-dim);font-size:.8rem;max-width:160px">${t.note || '—'}</td>
+                <td><button class="del-btn" onclick="deleteTrade(${t.id})">✕</button></td>
+            </tr>`;
+        }).join('');
+    }
+
+    document.getElementById('jtrade-count').textContent = `${trades.length} รายการ`;
+
+    /* Stats */
+    const wins   = trades.filter(t => t.result === 'WIN').length;
+    const losses = trades.filter(t => t.result === 'LOSS').length;
+    const totalPnl = trades.reduce((s, t) => s + (t.pnl || 0), 0);
+    const wr = trades.length ? Math.round(wins / trades.length * 100) : 0;
+
+    document.getElementById('js-total').textContent = trades.length;
+    document.getElementById('js-win').textContent   = wins;
+    document.getElementById('js-loss').textContent  = losses;
+    document.getElementById('js-wr').textContent    = `${wr}%`;
+    const pnlEl = document.getElementById('js-pnl');
+    pnlEl.textContent = (totalPnl >= 0 ? '+$' : '-$') + Math.abs(totalPnl).toFixed(2);
+    pnlEl.style.color = totalPnl >= 0 ? 'var(--green)' : 'var(--red)';
+}
+
+function exportCSV() {
+    const trades = loadTrades();
+    if (!trades.length) { alert('ยังไม่มีข้อมูล'); return; }
+    const header = 'วันที่,ทิศทาง,Entry,SL,TP,ปิดที่,ผลลัพธ์,P&L,โน้ต';
+    const rows = trades.map(t =>
+        `${t.date},${t.dir},${t.entry},${t.sl||''},${t.tp||''},${t.close||''},${t.result},${t.pnl||0},"${(t.note||'').replace(/"/g,"''")}"`
+    );
+    const csv = '﻿' + [header, ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `ema50-journal-${todayStr()}.csv`;
+    a.click();
+}
+
+/* ── START ── */
+setInterval(tickClock, 1000);
+tickClock();
+document.getElementById('j_date').value = todayStr();
+renderJournal();
+</script>
+</body>
+</html>
