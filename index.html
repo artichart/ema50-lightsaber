@@ -1000,23 +1000,34 @@
                 <label style="font-size:.8rem;color:var(--text-dim);margin:0;">Apps Script Code (คัดลอกทั้งหมด)</label>
                 <button onclick="copyGSCode()" style="background:transparent;border:1px solid rgba(255,215,0,.3);color:var(--gold);padding:3px 12px;border-radius:4px;cursor:pointer;font-size:.75rem;font-family:'Sarabun',sans-serif;">📋 Copy</button>
             </div>
-            <textarea id="gsCodeBlock" readonly onclick="this.select()" style="width:100%;height:200px;background:var(--bg);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 12px;color:#a0d0ff;font-size:.72rem;font-family:monospace;resize:none;line-height:1.7;">function doGet(e) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName('trades') || ss.insertSheet('trades');
+            <textarea id="gsCodeBlock" readonly onclick="this.select()" style="width:100%;height:200px;background:var(--bg);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 12px;color:#a0d0ff;font-size:.72rem;font-family:monospace;resize:none;line-height:1.7;">function sheet_() {
+  let ss;
+  try { ss = SpreadsheetApp.getActiveSpreadsheet(); } catch(e) {}
+  if (!ss) {
+    const p = PropertiesService.getScriptProperties();
+    const id = p.getProperty('SS_ID');
+    try { if (id) ss = SpreadsheetApp.openById(id); } catch(e) {}
+    if (!ss) {
+      ss = SpreadsheetApp.create('EMA50 Lightsaber Journal');
+      p.setProperty('SS_ID', ss.getId());
+    }
+  }
+  return ss.getSheetByName('trades') || ss.insertSheet('trades');
+}
+
+function doGet(e) {
+  const sheet = sheet_();
   const data = sheet.getDataRange().getValues();
   if (data.length <= 1) return out({ ok: true, trades: [] });
-  const headers = data[0];
-  const trades = data.slice(1).map(row => {
-    const obj = {};
-    headers.forEach((h, i) => obj[h] = row[i]);
-    return obj;
+  const h = data[0];
+  const trades = data.slice(1).map(r => {
+    const o = {}; h.forEach((k, i) => o[k] = r[i]); return o;
   });
   return out({ ok: true, trades });
 }
 
 function doPost(e) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName('trades') || ss.insertSheet('trades');
+  const sheet = sheet_();
   const p = JSON.parse(e.postData.contents);
   if (p.action === 'save') {
     if (sheet.getLastRow() === 0)
@@ -1036,8 +1047,8 @@ function doPost(e) {
   return out({ ok: true });
 }
 
-function out(data) {
-  return ContentService.createTextOutput(JSON.stringify(data))
+function out(d) {
+  return ContentService.createTextOutput(JSON.stringify(d))
     .setMimeType(ContentService.MimeType.JSON);
 }</textarea>
         </div>
@@ -1672,13 +1683,18 @@ async function testGS() {
     if (!url) { showStatus('gsModalStatus','❌ กรุณากรอก URL ก่อน', false); return; }
     showStatus('gsModalStatus','⏳ กำลังทดสอบ...', true);
     try {
-        const res = await fetch(url);
-        const data = await res.json();
+        const res = await fetch(url, { redirect: 'follow' });
+        const text = await res.text();
+        let data;
+        try { data = JSON.parse(text); } catch(e) {
+            showStatus('gsModalStatus','❌ Script ตอบกลับเป็น HTML — Who has access ต้องเป็น "Anyone" (ไม่ใช่ with Google account)', false);
+            return;
+        }
         showStatus('gsModalStatus',
-            data.ok ? `✅ เชื่อมต่อสำเร็จ — มีข้อมูล ${data.trades?.length || 0} รายการใน Sheets` : '❌ ตอบสนองผิดปกติ',
-            data.ok);
+            data.ok ? `✅ เชื่อมต่อสำเร็จ — ${data.trades?.length || 0} รายการใน Sheets` : `❌ Script error: ${data.error || 'unknown'}`,
+            !!data.ok);
     } catch(e) {
-        showStatus('gsModalStatus','❌ เชื่อมต่อไม่ได้ — ตรวจสอบ URL และการ Deploy', false);
+        showStatus('gsModalStatus','❌ CORS Error — Deploy ใหม่อีกครั้ง แล้วตรวจสอบ Who has access = "Anyone"', false);
     }
 }
 
