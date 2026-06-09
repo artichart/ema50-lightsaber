@@ -571,8 +571,8 @@
         </div>
         <div class="rule-card">
             <div class="rule-num">03</div>
-            <div class="rule-title">📈 Triple Timeframe Trend</div>
-            <div class="rule-body">ตรวจ Trend <span class="rule-val">D1 → H4 → H1</span> ให้ชี้ทิศทางเดียวกันทั้ง 3 Timeframe</div>
+            <div class="rule-title">📈 Quad Timeframe Trend</div>
+            <div class="rule-body">ตรวจ Trend <span class="rule-val">D1 → H4 → H1 → M15</span> อยู่เหนือหรือใต้ EMA50 ชี้ทิศทางเดียวกันทั้ง 4 Timeframe</div>
         </div>
         <div class="rule-card">
             <div class="rule-num">04</div>
@@ -602,12 +602,12 @@
     <div class="sec-hd">
         <h2>Pre-Trade Checklist</h2>
         <div class="divider"></div>
-        <p>ต้องผ่านครบ 7 ข้อก่อนกด BUY / SELL</p>
+        <p>ต้องผ่านครบ 8 ข้อก่อนกด BUY / SELL</p>
     </div>
     <div class="cl-wrap">
         <div class="cl-head">
             <div class="cl-head-title">เช็คลิสต์ก่อนเทรด</div>
-            <div class="cl-score">ผ่าน <b id="ckCount">0</b> / 7 ข้อ</div>
+            <div class="cl-score">ผ่าน <b id="ckCount">0</b> / 8 ข้อ</div>
         </div>
         <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
 
@@ -621,7 +621,7 @@
         <!-- 2 D1 -->
         <div class="cl-item" id="ci1">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">📊 เทรนด์ D1 (Daily)</div>
+            <div class="cl-label">📊 D1 (Daily) — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</div>
             <div class="trend-btns">
                 <button class="tb bull" onclick="setTF(0,'bull',event)">▲ Bull</button>
                 <button class="tb bear" onclick="setTF(0,'bear',event)">▼ Bear</button>
@@ -631,7 +631,7 @@
         <!-- 3 H4 -->
         <div class="cl-item" id="ci2">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">📊 เทรนด์ H4 (4 Hour)</div>
+            <div class="cl-label">📊 H4 (4 Hour) — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</div>
             <div class="trend-btns">
                 <button class="tb bull" onclick="setTF(1,'bull',event)">▲ Bull</button>
                 <button class="tb bear" onclick="setTF(1,'bear',event)">▼ Bear</button>
@@ -641,29 +641,39 @@
         <!-- 4 H1 -->
         <div class="cl-item" id="ci3">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">📊 เทรนด์ H1 (1 Hour)</div>
+            <div class="cl-label">📊 H1 (1 Hour) — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</div>
             <div class="trend-btns">
                 <button class="tb bull" onclick="setTF(2,'bull',event)">▲ Bull</button>
                 <button class="tb bear" onclick="setTF(2,'bear',event)">▼ Bear</button>
             </div>
         </div>
 
-        <!-- 5 Alignment -->
+        <!-- 5 M15 Trend -->
         <div class="cl-item" id="ci4">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">✅ D1, H4, H1 Align ทิศทางเดียวกัน (Triple Confirmation)</div>
+            <div class="cl-label">📊 M15 (15 Min) — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</div>
+            <div class="trend-btns">
+                <button class="tb bull" onclick="setTF(3,'bull',event)">▲ Bull</button>
+                <button class="tb bear" onclick="setTF(3,'bear',event)">▼ Bear</button>
+            </div>
+        </div>
+
+        <!-- 6 Alignment -->
+        <div class="cl-item" id="ci5">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">✅ D1, H4, H1, M15 Align ทิศทางเดียวกัน (Quad Confirmation)</div>
             <div class="cl-badge" id="alignBadge">รอ</div>
         </div>
 
-        <!-- 6 M15 Trigger -->
-        <div class="cl-item" id="ci5" onclick="ckToggle(5)">
+        <!-- 7 M15 Trigger -->
+        <div class="cl-item" id="ci6" onclick="ckToggle(6)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
             <div class="cl-label">🕯️ แท่งเทียน M15 ยาวกว่า 1,000 จุด (Trigger)</div>
             <div class="cl-badge">Manual</div>
         </div>
 
-        <!-- 7 1 trade/day -->
-        <div class="cl-item" id="ci6" onclick="ckToggle(6)">
+        <!-- 8 1 trade/day -->
+        <div class="cl-item" id="ci7" onclick="ckToggle(7)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
             <div class="cl-label">🔂 วันนี้ยังไม่ได้เทรด (สูงสุด 1 ไม้/วัน)</div>
             <div class="cl-badge">Manual</div>
@@ -804,7 +814,7 @@
             <div class="tf-cell"><div class="tf-label" style="color:var(--gold)">D1</div><div class="tf-role">เทรนด์หลัก</div></div>
             <div class="tf-cell"><div class="tf-label" style="color:#ff9944">H4</div><div class="tf-role">เทรนด์กลาง</div></div>
             <div class="tf-cell"><div class="tf-label" style="color:var(--cyan)">H1</div><div class="tf-role">เทรนด์รอง</div></div>
-            <div class="tf-cell"><div class="tf-label" style="color:var(--green)">M15</div><div class="tf-role">Trigger Entry</div></div>
+            <div class="tf-cell"><div class="tf-label" style="color:var(--green)">M15</div><div class="tf-role">Trend + Trigger</div></div>
         </div>
     </div>
 
@@ -813,7 +823,7 @@
         <p>Exponential Moving Average 50 คือเส้นค่าเฉลี่ยที่ให้น้ำหนักราคาล่าสุดมากกว่า ใช้เป็นตัวชี้ทิศทาง Bias หลักของระบบในทุก Timeframe</p>
         <div class="hl"><p><strong>อ่านสัญญาณ:</strong> ราคา > EMA 50 = Bullish Bias &nbsp;|&nbsp; ราคา &lt; EMA 50 = Bearish Bias</p></div>
         <ul class="elist">
-            <li>ใช้บน D1, H4, H1 — ราคาต้องอยู่ด้านเดียวกันของ EMA ทั้ง 3 TF</li>
+            <li>ใช้บน D1, H4, H1, M15 — ราคาต้องอยู่ด้านเดียวกันของ EMA ทั้ง 4 TF</li>
             <li>EMA 50 ทำหน้าที่เป็น Dynamic Support / Resistance</li>
             <li>ระบบนี้ใช้ EMA 50 แบบ Close (คำนวณจากราคาปิด)</li>
             <li>เมื่อราคาดึงกลับมาที่ EMA 50 ใน H1 คือโซน High Probability Entry</li>
@@ -861,12 +871,12 @@
     <div id="ep-mtf" class="epanel">
         <h3>Multi-Timeframe Analysis — วิเคราะห์ Top-Down</h3>
         <p>การอ่านตลาดจาก Timeframe ใหญ่ไปเล็ก เพื่อให้แน่ใจว่าเทรดในทิศทางเดียวกับ Smart Money</p>
-        <div class="hl"><p><strong>Triple Confirmation Rule:</strong> D1 + H4 + H1 ต้องชี้ทิศทางเดียวกันก่อนเข้าเสมอ</p></div>
+        <div class="hl"><p><strong>Quad Confirmation Rule:</strong> D1 + H4 + H1 + M15 ทุก TF ต้องอยู่ด้านเดียวกันของ EMA50 ก่อนเข้าเสมอ</p></div>
         <ul class="elist">
-            <li><strong>D1:</strong> กำหนด Weekly Bias — Bull หรือ Bear สำหรับทั้งสัปดาห์</li>
-            <li><strong>H4:</strong> ยืนยัน Bias และหา Swing High/Low สำคัญ</li>
-            <li><strong>H1:</strong> หาจุด Entry Zone และยืนยัน Momentum</li>
-            <li><strong>M15:</strong> รอแท่ง Trigger > 1,000 จุดเป็นสัญญาณเข้า</li>
+            <li><strong>D1:</strong> กำหนด Weekly Bias — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</li>
+            <li><strong>H4:</strong> ยืนยัน Bias — ราคาต้องอยู่ฝั่งเดียวกับ D1 บน EMA50</li>
+            <li><strong>H1:</strong> ยืนยัน Momentum — ราคาต้องอยู่ฝั่งเดียวกับ H4 บน EMA50</li>
+            <li><strong>M15:</strong> ยืนยันทิศทางสุดท้าย — ราคาเหนือ/ใต้ EMA50 สอดคล้องกับ H1 + รอแท่ง Trigger > 1,000 จุด</li>
             <li>ถ้า TF ใดไม่สอดคล้อง — Skip การเทรดในวันนั้นทันที</li>
         </ul>
     </div>
@@ -1196,7 +1206,7 @@ function checkWindowNotif(isOpen, totalMin, t) {
 
     /* 20:00 — Window เปิด (transition) */
     if (prevWindowOpen !== null && !prevWindowOpen && isOpen) {
-        const msgOpen = 'NY AM Window เปิดแล้ว! 20:00–23:00 น.\nรอ M15 Trigger > 1,000 จุด\nตรวจ D1 H4 H1 ทิศทางเดียวกัน ✅';
+        const msgOpen = 'NY AM Window เปิดแล้ว! 20:00–23:00 น.\nรอ M15 Trigger > 1,000 จุด\nตรวจ D1 H4 H1 M15 เหนือ/ใต้ EMA50 ทิศทางเดียวกัน ✅';
         sendNotif('EMA50 Lightsaber 🟢 OPEN', msgOpen);
         sendAlert('🟢 EMA50 Lightsaber — OPEN\n' + msgOpen);
     }
@@ -1277,8 +1287,8 @@ function tickClock() {
 
 
 /* ── CHECKLIST ── */
-const ck = [false,false,false,false,false,false,false];
-const tf = [null, null, null]; // D1, H4, H1
+const ck = [false,false,false,false,false,false,false,false];
+const tf = [null, null, null, null]; // D1, H4, H1, M15
 
 function ckSet(i, val, redraw=true) {
     ck[i] = val;
@@ -1287,7 +1297,7 @@ function ckSet(i, val, redraw=true) {
 
 function ckToggle(i) {
     if (i === 0) return; // time is auto
-    if (i === 4) return; // alignment is auto
+    if (i === 5) return; // alignment is auto
     ck[i] = !ck[i];
     renderCL();
 }
@@ -1306,8 +1316,8 @@ function setTF(i, dir, e) {
         e.target.classList.add('on');
     }
     /* Check alignment */
-    const aligned = tf[0] && tf[1] && tf[2] && tf[0]===tf[1] && tf[1]===tf[2];
-    ck[4] = aligned;
+    const aligned = tf[0] && tf[1] && tf[2] && tf[3] && tf[0]===tf[1] && tf[1]===tf[2] && tf[2]===tf[3];
+    ck[5] = aligned;
     const ab = document.getElementById('alignBadge');
     if (aligned) {
         ab.textContent = tf[0]==='bull' ? '✓ All Bullish' : '✓ All Bearish';
@@ -1324,27 +1334,27 @@ function setTF(i, dir, e) {
 function renderCL() {
     const total = ck.filter(Boolean).length;
     document.getElementById('ckCount').textContent = total;
-    document.getElementById('progFill').style.width = (total/7*100)+'%';
+    document.getElementById('progFill').style.width = (total/8*100)+'%';
     ck.forEach((v,i) => {
         document.getElementById('ci'+i).classList.toggle('done', v);
     });
     const banner = document.getElementById('resultBanner');
-    if (total === 7) {
+    if (total === 8) {
         const dir = tf[0]==='bull' ? 'BUY 🟢' : (tf[0]==='bear' ? 'SELL 🔴' : '');
         banner.className = 'result-banner banner-go';
         banner.textContent = `✅ ผ่านครบทุกเงื่อนไข! พร้อมเข้าเทรด ${dir} ได้เลย`;
     } else if (total >= 4) {
         banner.className = 'result-banner banner-wait';
-        banner.textContent = `⚠️ ยังไม่ผ่านครบ (${total}/7) — รอให้ครบทุกข้อก่อน`;
+        banner.textContent = `⚠️ ยังไม่ผ่านครบ (${total}/8) — รอให้ครบทุกข้อก่อน`;
     } else {
         banner.className = 'result-banner banner-no';
-        banner.textContent = `❌ ไม่ผ่านเงื่อนไข (${total}/7) — ยังไม่ควรเข้าเทรด`;
+        banner.textContent = `❌ ไม่ผ่านเงื่อนไข (${total}/8) — ยังไม่ควรเข้าเทรด`;
     }
 }
 
 function resetCL() {
-    for(let i=1;i<7;i++) ck[i]=false;
-    tf[0]=tf[1]=tf[2]=null;
+    for(let i=1;i<8;i++) ck[i]=false;
+    tf[0]=tf[1]=tf[2]=tf[3]=null;
     document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
     const ab=document.getElementById('alignBadge');
     ab.textContent='รอ'; ab.style.color=''; ab.style.background='';
