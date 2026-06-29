@@ -501,7 +501,7 @@
         <h1 class="hero-title">EMA50 LIGHTSABER</h1>
         <p class="hero-sub">มีแผน มีวินัย มีระบบ <b>มีชัย</b></p>
         <div class="hero-kpis">
-            <div><div class="kpi-val">1%</div><div class="kpi-lbl">Risk/Trade</div></div>
+            <div><div class="kpi-val">2%</div><div class="kpi-lbl">Risk/Trade</div></div>
             <div><div class="kpi-val">1:1</div><div class="kpi-lbl">Min RR</div></div>
             <div><div class="kpi-val">1</div><div class="kpi-lbl">Trade/Day</div></div>
             <div><div class="kpi-val">3H</div><div class="kpi-lbl">Trading Window</div></div>
@@ -566,8 +566,8 @@
         </div>
         <div class="rule-card">
             <div class="rule-num">02</div>
-            <div class="rule-title">💰 Money Management 1%</div>
-            <div class="rule-body">Risk ต่อไม้ไม่เกิน <span class="rule-val">1%</span> ของพอร์ต คำนวณ Lot Size จาก SL เสมอก่อน Order</div>
+            <div class="rule-title">💰 Money Management 2%</div>
+            <div class="rule-body">Risk ต่อไม้ไม่เกิน <span class="rule-val">2%</span> ของพอร์ต คำนวณ Lot Size จาก SL เสมอก่อน Order</div>
         </div>
         <div class="rule-card">
             <div class="rule-num">03</div>
@@ -582,7 +582,7 @@
         <div class="rule-card">
             <div class="rule-num">05</div>
             <div class="rule-title">🎯 ตั้ง SL &amp; TP ทันที</div>
-            <div class="rule-body">เข้าแล้วตั้ง <span class="rule-val">SL = 2×ATR</span> และ <span class="rule-val">TP = 2×ATR</span> ทันที — ไม่รีรอ</div>
+            <div class="rule-body">เข้าแล้วตั้ง <span class="rule-val">SL = 1×ATR</span> และ <span class="rule-val">TP = 2×ATR</span> ทันที — ไม่รีรอ</div>
         </div>
         <div class="rule-card">
             <div class="rule-num">06</div>
@@ -850,13 +850,13 @@
     <div id="ep-atr" class="epanel">
         <h3>ATR — Average True Range วัดระยะ SL &amp; TP</h3>
         <p>Average True Range (ATR) คือ Indicator ที่วัดความผันผวนของราคาในแต่ละช่วงเวลา ใช้เป็นเกณฑ์กำหนดระยะ Stop Loss และ Take Profit แบบ Dynamic ตามสภาพตลาดจริง</p>
-        <div class="hl"><p><strong>ใน EMA50 Lightsaber:</strong> ตั้ง SL = 2×ATR และ TP = 2×ATR จากราคา Entry ทันทีที่เข้าเทรด</p></div>
+        <div class="hl"><p><strong>ใน EMA50 Lightsaber:</strong> ตั้ง SL = 1×ATR และ TP = 2×ATR จากราคา Entry ทันทีที่เข้าเทรด (RR 1:2)</p></div>
         <ul class="elist">
             <li>ATR คำนวณจาก True Range เฉลี่ย 14 แท่งล่าสุด (ค่าเริ่มต้น)</li>
             <li>ค่า ATR สูง = ตลาดผันผวนมาก → SL/TP กว้างขึ้น</li>
             <li>ค่า ATR ต่ำ = ตลาดนิ่ง → SL/TP แคบลง ระวัง Whipsaw</li>
-            <li><strong>SL = Entry ± 2×ATR</strong> — ป้องกัน Noise ในตลาด</li>
-            <li><strong>TP = Entry ± 2×ATR</strong> — RR 1:1 ขั้นต่ำ ไม่ขยับหลังตั้ง</li>
+            <li><strong>SL = Entry ± 1×ATR</strong> — ป้องกัน Noise ในตลาด</li>
+            <li><strong>TP = Entry ± 2×ATR</strong> — RR 1:2 ไม่ขยับหลังตั้ง</li>
             <li>หา ATR ได้จาก TradingView → Add Indicator → "ATR" เลือก Period 14</li>
         </ul>
     </div>
