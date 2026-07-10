@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMA50 Lightsaber — ระบบเทรดทองคำ XAUUSD</title>
+    <title>EMA50 Lightsaber V3 — ระบบเทรดทองคำ XAUUSD</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
@@ -498,13 +498,13 @@
     <div class="hero-saber"></div>
     <div class="hero-content">
         <div class="hero-chip">XAUUSD Gold Trading System</div>
-        <h1 class="hero-title">EMA50 LIGHTSABER</h1>
-        <p class="hero-sub">มีแผน มีวินัย มีระบบ <b>มีชัย</b></p>
+        <h1 class="hero-title">EMA50 LIGHTSABER V3</h1>
+        <p class="hero-sub">เทรดเพื่อ<b>ใช้ชีวิต</b></p>
         <div class="hero-kpis">
             <div><div class="kpi-val">2%</div><div class="kpi-lbl">Risk/Trade</div></div>
-            <div><div class="kpi-val">1:1</div><div class="kpi-lbl">Min RR</div></div>
+            <div><div class="kpi-val">1:1</div><div class="kpi-lbl">RR (2ATR/2ATR)</div></div>
             <div><div class="kpi-val">1</div><div class="kpi-lbl">Trade/Day</div></div>
-            <div><div class="kpi-val">3H</div><div class="kpi-lbl">Trading Window</div></div>
+            <div><div class="kpi-val">2.5H</div><div class="kpi-lbl">Trading Window</div></div>
         </div>
         <div class="hero-btns">
             <a href="#checklist" class="btn-gold">เปิด Pre-Trade Checklist</a>
@@ -541,7 +541,7 @@
             </div>
             <div class="kz-cell target" id="kz2">
                 <div class="kz-cell-name">🎯 เวลาเทรด (NY AM)</div>
-                <div class="kz-cell-time">20:00–23:00</div>
+                <div class="kz-cell-time">20:30–23:00</div>
             </div>
             <div class="kz-cell" id="kz3">
                 <div class="kz-cell-name">New York PM</div>
@@ -554,7 +554,7 @@
 <!-- ═══════════ 7 RULES ═══════════ -->
 <div id="rules" class="section-wrap">
     <div class="sec-hd">
-        <h2>7 กฎระบบ EMA50 Lightsaber</h2>
+        <h2>7 กฎระบบ EMA50 Lightsaber V3</h2>
         <div class="divider"></div>
         <p>ทำตามกฎทุกข้อ — ไม่มีข้อยกเว้น</p>
     </div>
@@ -562,7 +562,7 @@
         <div class="rule-card">
             <div class="rule-num">01</div>
             <div class="rule-title">⏰ หน้าต่างเวลา</div>
-            <div class="rule-body">เทรดเฉพาะในช่วง <span class="rule-val">20:00–23:00</span> น. เวลาไทย (New York AM Session) เท่านั้น</div>
+            <div class="rule-body">เข้าเทรดเวลา <span class="rule-val">20:30</span> น. (ไทย) — <span class="rule-val">Hard Close 23:00</span> น. ไม่ถือข้ามหน้าต่าง</div>
         </div>
         <div class="rule-card">
             <div class="rule-num">02</div>
@@ -571,28 +571,28 @@
         </div>
         <div class="rule-card">
             <div class="rule-num">03</div>
-            <div class="rule-title">📈 Quad Timeframe Trend</div>
-            <div class="rule-body">ตรวจ Trend <span class="rule-val">D1 → H4 → H1 → M15</span> อยู่เหนือหรือใต้ EMA50 ชี้ทิศทางเดียวกันทั้ง 4 Timeframe</div>
+            <div class="rule-title">📈 Bias 5 Timeframe</div>
+            <div class="rule-body"><span class="rule-val">D1 → H4 → H1 → M30 → M15</span> ต้องอยู่ฝั่งเดียวกันของ EMA50 ทั้งหมด — Sell = ทุก TF ใต้ EMA50 / Buy = ทุก TF เหนือ EMA50</div>
         </div>
         <div class="rule-card">
             <div class="rule-num">04</div>
-            <div class="rule-title">🕯️ Trigger Candle M15</div>
-            <div class="rule-body">รอแท่งเทียน M15 ขนาด <span class="rule-val">&gt; 1,000 จุด</span> เป็นสัญญาณ Trigger ก่อนเข้า</div>
+            <div class="rule-title">🧱 เช็ค OI + Trigger M15</div>
+            <div class="rule-body">เช็ค OI (GCQ26): <span class="rule-val">TP ก่อน Wall / SL หลัง Wall</span> + รอแท่ง M15 ทิศเดียวกับเทรด ยาว <span class="rule-val">&gt; 1,000 จุด ($10)</span> ปิดพ้น EMA50 → เข้าเมื่อแท่งปิด</div>
         </div>
         <div class="rule-card">
             <div class="rule-num">05</div>
-            <div class="rule-title">🎯 ตั้ง SL &amp; TP ทันที</div>
-            <div class="rule-body">เข้าแล้วตั้ง <span class="rule-val">SL = 1×ATR</span> และ <span class="rule-val">TP = 2×ATR</span> ทันที — ไม่รีรอ</div>
+            <div class="rule-title">🎯 SL &amp; TP จาก ATR</div>
+            <div class="rule-body">ตั้ง <span class="rule-val">SL ≈ 2×ATR</span> และ <span class="rule-val">TP ≈ 2×ATR</span> ทันทีที่เข้า (RR 1:1)</div>
         </div>
         <div class="rule-card">
             <div class="rule-num">06</div>
-            <div class="rule-title">🔂 1 ไม้ / วัน</div>
-            <div class="rule-body">เทรดได้เพียง <span class="rule-val">1 ไม้</span> ต่อวัน ไม่ว่า Win หรือ Lose ให้หยุดทันที</div>
+            <div class="rule-title">🚫 ห้ามขยับ SL/TP</div>
+            <div class="rule-body">หลังเข้าเทรดแล้ว <span class="rule-val">ห้ามขยับ SL / TP เด็ดขาด</span> ปล่อยระบบทำงาน ห้าม Override ด้วยอารมณ์</div>
         </div>
         <div class="rule-card">
             <div class="rule-num">07</div>
-            <div class="rule-title">🚫 ห้ามขยับ SL/TP</div>
-            <div class="rule-body">หลังตั้ง SL และ TP แล้ว <span class="rule-val">ห้ามแตะ</span> ปล่อยระบบทำงาน ห้าม Override ด้วยอารมณ์</div>
+            <div class="rule-title">🔂 1 ไม้ / วัน</div>
+            <div class="rule-body">วันละ <span class="rule-val">1 ไม้เท่านั้น</span> — TP หรือ SL แล้วจบ <span class="rule-val">ไม่ Re-entry</span></div>
         </div>
     </div>
 </div>
@@ -600,21 +600,21 @@
 <!-- ═══════════ CHECKLIST ═══════════ -->
 <div id="checklist" class="section-wrap">
     <div class="sec-hd">
-        <h2>Pre-Trade Checklist</h2>
+        <h2>Pre-Trade Checklist V3</h2>
         <div class="divider"></div>
-        <p>ต้องผ่านครบ 8 ข้อก่อนกด BUY / SELL</p>
+        <p>ต้องผ่านครบ 10 ข้อก่อนกด BUY / SELL</p>
     </div>
     <div class="cl-wrap">
         <div class="cl-head">
             <div class="cl-head-title">เช็คลิสต์ก่อนเทรด</div>
-            <div class="cl-score">ผ่าน <b id="ckCount">0</b> / 8 ข้อ</div>
+            <div class="cl-score">ผ่าน <b id="ckCount">0</b> / 10 ข้อ</div>
         </div>
         <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
 
         <!-- 1 Time -->
         <div class="cl-item" id="ci0" onclick="ckToggle(0)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">⏰ เวลาปัจจุบันอยู่ในช่วง 20:00–23:00 น.</div>
+            <div class="cl-label">⏰ เวลาปัจจุบันอยู่ในช่วง 20:30–23:00 น. (Hard Close 23:00)</div>
             <div class="cl-badge" id="timeBadge">ตรวจสอบ</div>
         </div>
 
@@ -648,34 +648,51 @@
             </div>
         </div>
 
-        <!-- 5 M15 Trend -->
+        <!-- 5 M30 Trend -->
         <div class="cl-item" id="ci4">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">📊 M15 (15 Min) — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</div>
+            <div class="cl-label">📊 M30 (30 Min) — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</div>
             <div class="trend-btns">
                 <button class="tb bull" onclick="setTF(3,'bull',event)">▲ Bull</button>
                 <button class="tb bear" onclick="setTF(3,'bear',event)">▼ Bear</button>
             </div>
         </div>
 
-        <!-- 6 Alignment -->
+        <!-- 6 M15 Trend -->
         <div class="cl-item" id="ci5">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">✅ D1, H4, H1, M15 Align ทิศทางเดียวกัน (Quad Confirmation)</div>
+            <div class="cl-label">📊 M15 (15 Min) — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</div>
+            <div class="trend-btns">
+                <button class="tb bull" onclick="setTF(4,'bull',event)">▲ Bull</button>
+                <button class="tb bear" onclick="setTF(4,'bear',event)">▼ Bear</button>
+            </div>
+        </div>
+
+        <!-- 7 Alignment -->
+        <div class="cl-item" id="ci6">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">✅ D1, H4, H1, M30, M15 อยู่ฝั่งเดียวกันของ EMA50 ทั้งหมด (5 TF Bias)</div>
             <div class="cl-badge" id="alignBadge">รอ</div>
         </div>
 
-        <!-- 7 M15 Trigger -->
-        <div class="cl-item" id="ci6" onclick="ckToggle(6)">
+        <!-- 8 OI Check -->
+        <div class="cl-item" id="ci7" onclick="ckToggle(7)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">🕯️ แท่งเทียน M15 ยาวกว่า 1,000 จุด (Trigger)</div>
+            <div class="cl-label">🧱 เช็ค OI (GCQ26) — TP อยู่ก่อน Wall / SL อยู่หลัง Wall</div>
             <div class="cl-badge">Manual</div>
         </div>
 
-        <!-- 8 1 trade/day -->
-        <div class="cl-item" id="ci7" onclick="ckToggle(7)">
+        <!-- 9 M15 Trigger -->
+        <div class="cl-item" id="ci8" onclick="ckToggle(8)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">🔂 วันนี้ยังไม่ได้เทรด (สูงสุด 1 ไม้/วัน)</div>
+            <div class="cl-label">🕯️ Trigger: แท่ง M15 ทิศเดียวกับเทรด ยาว &gt; 1,000 จุด ($10) ปิดพ้น EMA50 — เข้าเมื่อแท่งปิด</div>
+            <div class="cl-badge">Manual</div>
+        </div>
+
+        <!-- 10 1 trade/day -->
+        <div class="cl-item" id="ci9" onclick="ckToggle(9)">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">🔂 วันนี้ยังไม่ได้เทรด (1 ไม้/วัน — TP หรือ SL แล้วจบ ไม่ Re-entry)</div>
             <div class="cl-badge">Manual</div>
         </div>
 
@@ -808,17 +825,19 @@
         <div class="etab" onclick="eTab('bb',this)">Bollinger Bands</div>
         <div class="etab" onclick="eTab('atr',this)">ATR</div>
         <div class="etab" onclick="eTab('ict',this)">ICT Killzones</div>
+        <div class="etab" onclick="eTab('oi',this)">OI Profile</div>
         <div class="etab" onclick="eTab('mtf',this)">Multi-Timeframe</div>
     </div>
 
     <div id="ep-overview" class="epanel on">
-        <h3>ภาพรวม EMA50 Lightsaber System</h3>
-        <p>EMA50 Lightsaber คือระบบเทรดทองคำ XAUUSD ที่ผสมแนวคิด ICT (Inner Circle Trader) กับ Multi-Timeframe Analysis และ Technical Indicators เพื่อหาจุดเข้าที่มีคุณภาพสูงใน New York Session</p>
-        <div class="hl"><p><strong>หลักการ:</strong> ยืนยันเทรนด์จาก Top-Down → รอหน้าต่างเวลาที่ถูก → รอ Trigger ชัดเจน → บริหาร Risk เคร่งครัด</p></div>
+        <h3>ภาพรวม EMA50 Lightsaber V3 System</h3>
+        <p>EMA50 Lightsaber V3 คือระบบเทรดทองคำ XAUUSD ที่ผสมแนวคิด ICT (Inner Circle Trader) กับ Multi-Timeframe Analysis, Options OI (GCQ26) และ Technical Indicators เพื่อหาจุดเข้าที่มีคุณภาพสูงใน New York Session — เทรดเพื่อใช้ชีวิต</p>
+        <div class="hl"><p><strong>หลักการ:</strong> ยืนยัน Bias 5 TF จาก Top-Down → รอหน้าต่างเวลาที่ถูก → เช็ค OI Wall → รอ Trigger ชัดเจน → บริหาร Risk เคร่งครัด</p></div>
         <div class="tf-row">
             <div class="tf-cell"><div class="tf-label" style="color:var(--gold)">D1</div><div class="tf-role">เทรนด์หลัก</div></div>
             <div class="tf-cell"><div class="tf-label" style="color:#ff9944">H4</div><div class="tf-role">เทรนด์กลาง</div></div>
             <div class="tf-cell"><div class="tf-label" style="color:var(--cyan)">H1</div><div class="tf-role">เทรนด์รอง</div></div>
+            <div class="tf-cell"><div class="tf-label" style="color:#b48cff">M30</div><div class="tf-role">เทรนด์ย่อย</div></div>
             <div class="tf-cell"><div class="tf-label" style="color:var(--green)">M15</div><div class="tf-role">Trend + Trigger</div></div>
         </div>
     </div>
@@ -828,7 +847,7 @@
         <p>Exponential Moving Average 50 คือเส้นค่าเฉลี่ยที่ให้น้ำหนักราคาล่าสุดมากกว่า ใช้เป็นตัวชี้ทิศทาง Bias หลักของระบบในทุก Timeframe</p>
         <div class="hl"><p><strong>อ่านสัญญาณ:</strong> ราคา > EMA 50 = Bullish Bias &nbsp;|&nbsp; ราคา &lt; EMA 50 = Bearish Bias</p></div>
         <ul class="elist">
-            <li>ใช้บน D1, H4, H1, M15 — ราคาต้องอยู่ด้านเดียวกันของ EMA ทั้ง 4 TF</li>
+            <li>ใช้บน D1, H4, H1, M30, M15 — ราคาต้องอยู่ด้านเดียวกันของ EMA ทั้ง 5 TF</li>
             <li>EMA 50 ทำหน้าที่เป็น Dynamic Support / Resistance</li>
             <li>ระบบนี้ใช้ EMA 50 แบบ Close (คำนวณจากราคาปิด)</li>
             <li>เมื่อราคาดึงกลับมาที่ EMA 50 ใน H1 คือโซน High Probability Entry</li>
@@ -850,13 +869,13 @@
     <div id="ep-atr" class="epanel">
         <h3>ATR — Average True Range วัดระยะ SL &amp; TP</h3>
         <p>Average True Range (ATR) คือ Indicator ที่วัดความผันผวนของราคาในแต่ละช่วงเวลา ใช้เป็นเกณฑ์กำหนดระยะ Stop Loss และ Take Profit แบบ Dynamic ตามสภาพตลาดจริง</p>
-        <div class="hl"><p><strong>ใน EMA50 Lightsaber:</strong> ตั้ง SL = 1×ATR และ TP = 2×ATR จากราคา Entry ทันทีที่เข้าเทรด (RR 1:2)</p></div>
+        <div class="hl"><p><strong>ใน EMA50 Lightsaber V3:</strong> ตั้ง SL ≈ 2×ATR และ TP ≈ 2×ATR จากราคา Entry ทันทีที่เข้าเทรด (RR 1:1) — ปรับ TP/SL ให้สัมพันธ์กับ OI Wall (TP ก่อน Wall / SL หลัง Wall)</p></div>
         <ul class="elist">
             <li>ATR คำนวณจาก True Range เฉลี่ย 14 แท่งล่าสุด (ค่าเริ่มต้น)</li>
             <li>ค่า ATR สูง = ตลาดผันผวนมาก → SL/TP กว้างขึ้น</li>
             <li>ค่า ATR ต่ำ = ตลาดนิ่ง → SL/TP แคบลง ระวัง Whipsaw</li>
-            <li><strong>SL = Entry ± 1×ATR</strong> — ป้องกัน Noise ในตลาด</li>
-            <li><strong>TP = Entry ± 2×ATR</strong> — RR 1:2 ไม่ขยับหลังตั้ง</li>
+            <li><strong>SL = Entry ± 2×ATR</strong> — ป้องกัน Noise ในตลาด และต้องอยู่หลัง OI Wall</li>
+            <li><strong>TP = Entry ± 2×ATR</strong> — RR 1:1 ไม่ขยับหลังตั้ง และต้องอยู่ก่อน OI Wall</li>
             <li>หา ATR ได้จาก TradingView → Add Indicator → "ATR" เลือก Period 14</li>
         </ul>
     </div>
@@ -864,24 +883,55 @@
     <div id="ep-ict" class="epanel">
         <h3>ICT Killzones — ช่วงเวลา High Probability</h3>
         <p>ICT Killzones คือช่วงเวลาที่ตลาดมีสภาพคล่องสูงและมักเกิด Price Movement ที่ชัดเจน กำหนดโดย Inner Circle Trader (Michael J. Huddleston)</p>
-        <div class="hl"><p><strong>EMA50 Lightsaber Target Zone:</strong> New York AM Killzone = 20:00–23:00 น. ไทย (8:00–11:00 AM EST)</p></div>
+        <div class="hl"><p><strong>EMA50 Lightsaber V3 Target Zone:</strong> เข้าเทรด 20:30 น. ไทย — Hard Close 23:00 น. (New York AM Killzone)</p></div>
         <ul class="elist">
             <li><strong>Asian (08:00–12:00 TH):</strong> สภาพคล่องต่ำ ราคาเคลื่อนในช่วงแคบ — สร้าง Liquidity Pool</li>
             <li><strong>London (14:00–17:00 TH):</strong> เริ่มมีสภาพคล่อง ราคาเริ่มมีทิศทาง</li>
-            <li><strong>New York AM (20:00–23:00 TH):</strong> สภาพคล่องสูงสุด — เป้าหมายระบบนี้</li>
+            <li><strong>New York AM (20:30–23:00 TH):</strong> สภาพคล่องสูงสุด — เป้าหมายระบบนี้ (Hard Close 23:00)</li>
             <li><strong>New York PM (01:30–04:00 TH):</strong> สภาพคล่องลดลง หลีกเลี่ยง</li>
         </ul>
+    </div>
+
+    <div id="ep-oi" class="epanel">
+        <h3>Open Interest (OI) — อ่านกำแพงราคาจาก Options</h3>
+        <p>OI คือจำนวนสัญญา Options ของ Gold Futures (GCQ26) ที่ยังเปิดค้างอยู่ที่แต่ละ Strike Price — ยิ่ง OI เยอะ = ยิ่งมีเงินเดิมพันที่ราคานั้นเยอะ = มีคนมีผลประโยชน์ต้องปกป้องราคานั้น = ราคาวิ่งผ่านยาก เรียกว่า <strong>"Wall"</strong></p>
+        <div class="hl"><p><strong>กฎพื้นฐาน 2 ข้อ:</strong> ① Put OI เยอะ = พื้น (Support) — อยู่ใต้ราคา คอยรับ &nbsp;|&nbsp; ② Call OI เยอะ = เพดาน (Resistance) — อยู่เหนือราคา คอยกด</p></div>
+
+        <h3 style="margin-top:1.5rem;">⏱️ วิธีใช้กับระบบ (30 วินาทีก่อนเข้าเทรด)</h3>
+        <ul class="elist">
+            <li><strong>คำถามที่ 1: ระหว่าง Entry กับ TP มี Wall ขวางไหม?</strong><br>Sell → หา Put wall ก้อนใหญ่ / Buy → หา Call wall ก้อนใหญ่<br>ถ้ามี → ขยับ TP มาอยู่ <strong>"ก่อน" Wall เสมอ</strong> ห้ามตั้งเลย Wall</li>
+            <li><strong>คำถามที่ 2: SL อยู่ "หลัง" Wall ฝั่งตรงข้ามหรือยัง?</strong><br>SL ที่อยู่หน้า Wall หรือชิด Wall = จุดล่อ Stop Hunt<br>ต้องอยู่พ้น Wall + บวก ATR buffer</li>
+        </ul>
+
+        <h3 style="margin-top:1.5rem;">📖 ตัวอย่างจริง (10 ก.ค. 2026)</h3>
+        <ul class="elist">
+            <li>Put wall <strong>4100</strong> มี OI 2,111 สัญญา = พื้นหนามาก</li>
+            <li>เทรด Sell 4,102 / TP 4,083 = <strong>TP อยู่ใต้พื้น (ผิดกฎ)</strong></li>
+            <li>ผลจริง: ราคาลงแตะ 4,085 → พลาด TP แค่ 1.5 จุด → เด้งกลับขึ้นมาที่ Entry = Wall ทำงานจริง (รอบสองถึงเจาะผ่านเพราะ momentum NY แรงพอ)</li>
+            <li><strong>บทเรียน:</strong> ถ้า TP อยู่ก่อน Wall (เช่น 4,105) จะปิดกำไรไปตั้งแต่รอบแรก</li>
+        </ul>
+
+        <h3 style="margin-top:1.5rem;">⚠️ ข้อควรระวัง</h3>
+        <ul class="elist">
+            <li>OI level เป็น <strong>"โซน"</strong> ไม่ใช่เส้นเป๊ะ — เผื่อ ±5–10 จุดเสมอ</li>
+            <li>Wall เจาะได้ ถ้า momentum แรงจริง (แท่ง M15 &gt; 1,000 จุด คือสัญญาณเจาะ)</li>
+            <li>เช็ค OI <strong>"ก่อน"</strong> กดเข้า Order เสมอ — ไม่ใช่หลังเข้าแล้วค่อยดู</li>
+            <li>แหล่งข้อมูล: Barchart → GCQ26 Options Chain (ดูคอลัมน์ OI และ ΔOI)</li>
+        </ul>
+
+        <div class="hl" style="margin-top:1.5rem;"><p><strong>🎓 หมวดขั้นสูง (เก็บไว้เรียนทีหลัง ยังไม่ใช้ในระบบ):</strong> Focus level · Max Pain · ΔOI directionality · Gamma pinning/squeeze — หัวข้อเหล่านี้จะเพิ่มเมื่อผ่าน 20–30 เทรดแรกของ V3</p></div>
     </div>
 
     <div id="ep-mtf" class="epanel">
         <h3>Multi-Timeframe Analysis — วิเคราะห์ Top-Down</h3>
         <p>การอ่านตลาดจาก Timeframe ใหญ่ไปเล็ก เพื่อให้แน่ใจว่าเทรดในทิศทางเดียวกับ Smart Money</p>
-        <div class="hl"><p><strong>Quad Confirmation Rule:</strong> D1 + H4 + H1 + M15 ทุก TF ต้องอยู่ด้านเดียวกันของ EMA50 ก่อนเข้าเสมอ</p></div>
+        <div class="hl"><p><strong>5 TF Bias Rule (V3):</strong> D1 + H4 + H1 + M30 + M15 ทุก TF ต้องอยู่ฝั่งเดียวกันของ EMA50 ก่อนเข้าเสมอ — Sell = ทุก TF ใต้ EMA50 / Buy = ทุก TF เหนือ EMA50</p></div>
         <ul class="elist">
             <li><strong>D1:</strong> กำหนด Weekly Bias — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</li>
             <li><strong>H4:</strong> ยืนยัน Bias — ราคาต้องอยู่ฝั่งเดียวกับ D1 บน EMA50</li>
             <li><strong>H1:</strong> ยืนยัน Momentum — ราคาต้องอยู่ฝั่งเดียวกับ H4 บน EMA50</li>
-            <li><strong>M15:</strong> ยืนยันทิศทางสุดท้าย — ราคาเหนือ/ใต้ EMA50 สอดคล้องกับ H1 + รอแท่ง Trigger > 1,000 จุด</li>
+            <li><strong>M30:</strong> ยืนยันเทรนด์ย่อย — ราคาต้องอยู่ฝั่งเดียวกับ H1 บน EMA50</li>
+            <li><strong>M15:</strong> ยืนยันทิศทางสุดท้าย — ราคาเหนือ/ใต้ EMA50 สอดคล้องทุก TF + รอแท่ง Trigger ทิศเดียวกับเทรด > 1,000 จุด ($10) ปิดพ้น EMA50 → เข้าเมื่อแท่งปิด</li>
             <li>ถ้า TF ใดไม่สอดคล้อง — Skip การเทรดในวันนั้นทันที</li>
         </ul>
     </div>
@@ -1075,7 +1125,7 @@ function out(d) {
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer>
-    <p><strong>EMA50 Lightsaber</strong> — ระบบเทรดทองคำ XAUUSD</p>
+    <p><strong>EMA50 Lightsaber V3</strong> — ระบบเทรดทองคำ XAUUSD · เทรดเพื่อใช้ชีวิต</p>
     <p style="margin-top:6px;font-size:.78rem;">⚠️ การเทรดมีความเสี่ยงสูง ผลตอบแทนในอดีตไม่ได้รับประกันอนาคต โปรดศึกษาให้เข้าใจก่อนลงทุน</p>
 </footer>
 
@@ -1126,7 +1176,7 @@ async function testTelegram() {
         const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chat, text: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือนสำเร็จ!\nระบบพร้อมแจ้งเตือน NY AM 20:00–23:00 น.' })
+            body: JSON.stringify({ chat_id: chat, text: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือนสำเร็จ!\nระบบพร้อมแจ้งเตือน NY AM 20:30–23:00 น.' })
         });
         const data = await r.json();
         showStatus('statusTg', data.ok ? '✅ ส่งสำเร็จ! เช็ค Telegram ได้เลย' : `❌ ${data.description || 'Error'}`, data.ok);
@@ -1184,7 +1234,7 @@ async function testEmail() {
     showStatus('statusEm','⏳ กำลังส่ง...', true);
     try {
         emailjs.init({ publicKey: key });
-        const result = await emailjs.send(svc, tpl, { message: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือน Email สำเร็จ!\nระบบพร้อมแจ้งเตือน NY AM 20:00–23:00 น.', to_email: to });
+        const result = await emailjs.send(svc, tpl, { message: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือน Email สำเร็จ!\nระบบพร้อมแจ้งเตือน NY AM 20:30–23:00 น.', to_email: to });
         showStatus('statusEm', result.status === 200 ? '✅ ส่งสำเร็จ! เช็ค Email ได้เลย' : `⚠️ Status: ${result.status} — ${result.text}`, result.status === 200);
     } catch(e) {
         showStatus('statusEm', `❌ Error: ${e.text || e.message || JSON.stringify(e)}`, false);
@@ -1298,17 +1348,17 @@ function checkWindowNotif(isOpen, totalMin, t) {
     const day = `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}`;
     if (notifDay !== day) { notifPreSent = false; notifCloseSent = false; notifDay = day; }
 
-    /* 19:50 — เปิดในอีก 10 นาที */
-    if (totalMin === 19 * 60 + 50 && !notifPreSent) {
+    /* 20:20 — เปิดในอีก 10 นาที */
+    if (totalMin === 20 * 60 + 20 && !notifPreSent) {
         notifPreSent = true;
-        const msg = 'NY AM Window เปิดในอีก 10 นาที! (20:00 น.)\nเปิด TradingView เตรียมดู M15 Trigger ได้เลย';
+        const msg = 'NY AM Window เปิดในอีก 10 นาที! (20:30 น.)\nเปิด TradingView เตรียมดู M15 Trigger ได้เลย';
         sendNotif('EMA50 Lightsaber ⚡', msg);
         sendAlert('⚡ EMA50 Lightsaber\n' + msg);
     }
 
-    /* 20:00 — Window เปิด (transition) */
+    /* 20:30 — Window เปิด (transition) */
     if (prevWindowOpen !== null && !prevWindowOpen && isOpen) {
-        const msgOpen = 'NY AM Window เปิดแล้ว! 20:00–23:00 น.\nรอ M15 Trigger > 1,000 จุด\nตรวจ D1 H4 H1 M15 เหนือ/ใต้ EMA50 ทิศทางเดียวกัน ✅';
+        const msgOpen = 'NY AM Window เปิดแล้ว! 20:30–23:00 น. (Hard Close)\nเช็ค OI: TP ก่อน Wall / SL หลัง Wall\nรอ M15 Trigger > 1,000 จุด ปิดพ้น EMA50\nตรวจ D1 H4 H1 M30 M15 เหนือ/ใต้ EMA50 ทิศทางเดียวกัน ✅';
         sendNotif('EMA50 Lightsaber 🟢 OPEN', msgOpen);
         sendAlert('🟢 EMA50 Lightsaber — OPEN\n' + msgOpen);
     }
@@ -1344,7 +1394,7 @@ function tickClock() {
     document.getElementById('thaiClock').textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
 
     const totalMin = h * 60 + m;
-    const isOpen = totalMin >= 20*60 && totalMin < 23*60;
+    const isOpen = totalMin >= 20*60+30 && totalMin < 23*60;
 
     const pill = document.getElementById('statusPill');
     const txt  = document.getElementById('statusTxt');
@@ -1360,14 +1410,14 @@ function tickClock() {
         target.setHours(23, 0, 0, 0);
     } else {
         if (h >= 23) target.setDate(target.getDate() + 1);
-        target.setHours(20, 0, 0, 0);
+        target.setHours(20, 30, 0, 0);
     }
     val.textContent = fmtDiff(target - t);
 
     /* Killzone highlights */
     const Asian  = (h >= 8  && h < 12);
     const London = (h >= 14 && h < 17);
-    const NYAM   = (totalMin >= 20*60 && totalMin < 23*60);
+    const NYAM   = (totalMin >= 20*60+30 && totalMin < 23*60);
     const NYPM   = (totalMin >= 90 && totalMin < 240);
     document.getElementById('kz0').classList.toggle('on', Asian);
     document.getElementById('kz1').classList.toggle('on', London);
@@ -1389,8 +1439,8 @@ function tickClock() {
 
 
 /* ── CHECKLIST ── */
-const ck = [false,false,false,false,false,false,false,false];
-const tf = [null, null, null, null]; // D1, H4, H1, M15
+const ck = [false,false,false,false,false,false,false,false,false,false];
+const tf = [null, null, null, null, null]; // D1, H4, H1, M30, M15
 
 function ckSet(i, val, redraw=true) {
     ck[i] = val;
@@ -1399,7 +1449,7 @@ function ckSet(i, val, redraw=true) {
 
 function ckToggle(i) {
     if (i === 0) return; // time is auto
-    if (i === 5) return; // alignment is auto
+    if (i === 6) return; // alignment is auto
     ck[i] = !ck[i];
     renderCL();
 }
@@ -1418,8 +1468,8 @@ function setTF(i, dir, e) {
         e.target.classList.add('on');
     }
     /* Check alignment */
-    const aligned = tf[0] && tf[1] && tf[2] && tf[3] && tf[0]===tf[1] && tf[1]===tf[2] && tf[2]===tf[3];
-    ck[5] = aligned;
+    const aligned = tf.every(v => v) && tf.every(v => v === tf[0]);
+    ck[6] = aligned;
     const ab = document.getElementById('alignBadge');
     if (aligned) {
         ab.textContent = tf[0]==='bull' ? '✓ All Bullish' : '✓ All Bearish';
@@ -1436,27 +1486,27 @@ function setTF(i, dir, e) {
 function renderCL() {
     const total = ck.filter(Boolean).length;
     document.getElementById('ckCount').textContent = total;
-    document.getElementById('progFill').style.width = (total/8*100)+'%';
+    document.getElementById('progFill').style.width = (total/10*100)+'%';
     ck.forEach((v,i) => {
         document.getElementById('ci'+i).classList.toggle('done', v);
     });
     const banner = document.getElementById('resultBanner');
-    if (total === 8) {
+    if (total === 10) {
         const dir = tf[0]==='bull' ? 'BUY 🟢' : (tf[0]==='bear' ? 'SELL 🔴' : '');
         banner.className = 'result-banner banner-go';
         banner.textContent = `✅ ผ่านครบทุกเงื่อนไข! พร้อมเข้าเทรด ${dir} ได้เลย`;
-    } else if (total >= 4) {
+    } else if (total >= 5) {
         banner.className = 'result-banner banner-wait';
-        banner.textContent = `⚠️ ยังไม่ผ่านครบ (${total}/8) — รอให้ครบทุกข้อก่อน`;
+        banner.textContent = `⚠️ ยังไม่ผ่านครบ (${total}/10) — รอให้ครบทุกข้อก่อน`;
     } else {
         banner.className = 'result-banner banner-no';
-        banner.textContent = `❌ ไม่ผ่านเงื่อนไข (${total}/8) — ยังไม่ควรเข้าเทรด`;
+        banner.textContent = `❌ ไม่ผ่านเงื่อนไข (${total}/10) — ยังไม่ควรเข้าเทรด`;
     }
 }
 
 function resetCL() {
-    for(let i=1;i<8;i++) ck[i]=false;
-    tf[0]=tf[1]=tf[2]=tf[3]=null;
+    for(let i=1;i<10;i++) ck[i]=false;
+    tf[0]=tf[1]=tf[2]=tf[3]=tf[4]=null;
     document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
     const ab=document.getElementById('alignBadge');
     ab.textContent='รอ'; ab.style.color=''; ab.style.background='';
@@ -1467,7 +1517,7 @@ function resetCL() {
 
 
 /* ── EDUCATION TABS ── */
-const tabIds = ['overview','ema','bb','atr','ict','mtf'];
+const tabIds = ['overview','ema','bb','atr','ict','oi','mtf'];
 function eTab(id, el) {
     tabIds.forEach(t => {
         document.getElementById('ep-'+t).classList.remove('on');
