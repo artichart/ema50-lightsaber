@@ -518,7 +518,7 @@
     <div class="sec-hd">
         <h2>หน้าต่างเวลาเทรด</h2>
         <div class="divider"></div>
-        <p>19:00–23:00 น. (London Close + New York AM) — เวลาไทย (UTC+7)</p>
+        <p>07:00–10:00 น. (เอเชีย) และ 20:30–22:00 น. (แกน New York AM) — เวลาไทย (UTC+7)</p>
     </div>
     <div class="tw-card">
         <div class="tw-top-bar"></div>
@@ -541,7 +541,7 @@
             </div>
             <div class="kz-cell target" id="kz2">
                 <div class="kz-cell-name">🎯 เวลาเทรด</div>
-                <div class="kz-cell-time">19:00–23:00</div>
+                <div class="kz-cell-time">20:30–22:00</div>
             </div>
             <div class="kz-cell" id="kz3">
                 <div class="kz-cell-name">New York PM</div>
@@ -562,7 +562,7 @@
         <div class="rule-card">
             <div class="rule-num">01</div>
             <div class="rule-title">⏰ หน้าต่างเวลา</div>
-            <div class="rule-body">หน้าต่างเทรด <span class="rule-val">19:00–23:00</span> น. (ไทย) — <span class="rule-val">Hard Close 23:00</span> น. ไม่ถือข้ามหน้าต่าง เตรียมพร้อมตั้งแต่ 19:00 แล้วรอ Alert</div>
+            <div class="rule-body">หน้าต่างเทรด <span class="rule-val">07:00–10:00</span> และ <span class="rule-val">20:30–22:00</span> น. (ไทย) — ไม่ถือข้ามหน้าต่าง (Hard Close 10:00 / 22:00) โควตา <span class="rule-val">1 ไม้/วินโดว์</span> เข้าเช้าแล้วยังเข้าเย็นได้</div>
         </div>
         <div class="rule-card">
             <div class="rule-num">02</div>
@@ -591,8 +591,8 @@
         </div>
         <div class="rule-card">
             <div class="rule-num">07</div>
-            <div class="rule-title">🔂 1 ไม้ / วัน</div>
-            <div class="rule-body">วันละ <span class="rule-val">1 ไม้เท่านั้น</span> — TP หรือ SL แล้วจบ <span class="rule-val">ไม่ Re-entry</span></div>
+            <div class="rule-title">🔂 1 ไม้ / วินโดว์</div>
+            <div class="rule-body">วินโดว์ละ <span class="rule-val">1 ไม้เท่านั้น</span> — TP หรือ SL แล้วจบวินโดว์นั้น <span class="rule-val">ไม่ Re-entry</span><br>เช้า 1 + เย็น 1 = วันละไม่เกิน 2 ไม้ → <span class="rule-val">เสี่ยงสูงสุด 600 USD/วัน</span> (2× ของเดิม)</div>
         </div>
     </div>
 </div>
@@ -614,7 +614,7 @@
         <!-- 1 Time -->
         <div class="cl-item" id="ci0" onclick="ckToggle(0)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">⏰ เวลาปัจจุบันอยู่ในช่วง 19:00–23:00 น. (Hard Close 23:00)</div>
+            <div class="cl-label">⏰ เวลาปัจจุบันอยู่ในหน้าต่างเทรด (07:00–10:00 หรือ 20:30–22:00)</div>
             <div class="cl-badge" id="timeBadge">ตรวจสอบ</div>
         </div>
 
@@ -692,7 +692,7 @@
         <!-- 10 1 trade/day -->
         <div class="cl-item" id="ci9" onclick="ckToggle(9)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">🔂 วันนี้ยังไม่ได้เทรด (1 ไม้/วัน — TP หรือ SL แล้วจบ ไม่ Re-entry)</div>
+            <div class="cl-label">🔂 วินโดว์นี้ยังไม่ได้เทรด (1 ไม้/วินโดว์ — TP หรือ SL แล้วจบ ไม่ Re-entry)</div>
             <div class="cl-badge">Manual</div>
         </div>
 
@@ -883,11 +883,11 @@
     <div id="ep-ict" class="epanel">
         <h3>ICT Killzones — ช่วงเวลา High Probability</h3>
         <p>ICT Killzones คือช่วงเวลาที่ตลาดมีสภาพคล่องสูงและมักเกิด Price Movement ที่ชัดเจน กำหนดโดย Inner Circle Trader (Michael J. Huddleston)</p>
-        <div class="hl"><p><strong>EMA50 Lightsaber Target Zone:</strong> หน้าต่างเทรด 19:00–23:00 น. ไทย — Hard Close 23:00 น. (คร่อม London Close + New York AM Killzone)</p></div>
+        <div class="hl"><p><strong>EMA50 Lightsaber Target Zone:</strong> หน้าต่างเทรด 07:00–10:00 (เอเชีย) และ 20:30–22:00 น. ไทย (แกนกลาง New York AM Killzone) — สัญญาณยิงบนชาร์ต M5</p></div>
         <ul class="elist">
             <li><strong>Asian (08:00–12:00 TH):</strong> สภาพคล่องต่ำ ราคาเคลื่อนในช่วงแคบ — สร้าง Liquidity Pool</li>
             <li><strong>London (14:00–17:00 TH):</strong> เริ่มมีสภาพคล่อง ราคาเริ่มมีทิศทาง</li>
-            <li><strong>New York AM (20:30–23:00 TH):</strong> สภาพคล่องสูงสุด — ระบบนี้เปิดหน้าต่างเร็วกว่าที่ 19:00 เพื่อไม่พลาดต้นเทรนด์ช่วง London Close (Hard Close 23:00)</li>
+            <li><strong>New York AM (20:30–23:00 TH):</strong> สภาพคล่องสูงสุด — ระบบนี้เอาเฉพาะ 90 นาทีแรก (20:30–22:00) เลิกเปิดตั้งแต่ 19:00 เพราะช่วง 19:30–20:30 เป็นเวลาที่ข่าวสหรัฐออก (CPI/NFP) ราคาเหวี่ยงจนกำแพง OI ใช้ไม่ได้ ส่วนหลัง 22:00 สภาพคล่องเริ่มบาง</li>
             <li><strong>New York PM (01:30–04:00 TH):</strong> สภาพคล่องลดลง หลีกเลี่ยง</li>
         </ul>
     </div>
@@ -1176,7 +1176,7 @@ async function testTelegram() {
         const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chat, text: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือนสำเร็จ!\nระบบพร้อมแจ้งเตือน Window 19:00–23:00 น.' })
+            body: JSON.stringify({ chat_id: chat, text: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือนสำเร็จ!\nระบบพร้อมแจ้งเตือน Window 07:00–10:00 และ 20:30–22:00 น.' })
         });
         const data = await r.json();
         showStatus('statusTg', data.ok ? '✅ ส่งสำเร็จ! เช็ค Telegram ได้เลย' : `❌ ${data.description || 'Error'}`, data.ok);
@@ -1234,7 +1234,7 @@ async function testEmail() {
     showStatus('statusEm','⏳ กำลังส่ง...', true);
     try {
         emailjs.init({ publicKey: key });
-        const result = await emailjs.send(svc, tpl, { message: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือน Email สำเร็จ!\nระบบพร้อมแจ้งเตือน Window 19:00–23:00 น.', to_email: to });
+        const result = await emailjs.send(svc, tpl, { message: '🗡️ EMA50 Lightsaber\n✅ ทดสอบแจ้งเตือน Email สำเร็จ!\nระบบพร้อมแจ้งเตือน Window 20:30–22:00 น.', to_email: to });
         showStatus('statusEm', result.status === 200 ? '✅ ส่งสำเร็จ! เช็ค Email ได้เลย' : `⚠️ Status: ${result.status} — ${result.text}`, result.status === 200);
     } catch(e) {
         showStatus('statusEm', `❌ Error: ${e.text || e.message || JSON.stringify(e)}`, false);
@@ -1347,28 +1347,31 @@ function checkWindowNotif(isOpen, totalMin, t) {
 
     const day = `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}`;
     if (notifDay !== day) { notifPreSent = false; notifCloseSent = false; notifDay = day; }
+    /* มี 2 วินโดว์ต่อวัน -> รีเซ็ตธงตอนเที่ยง ไม่งั้นวินโดว์เย็นจะไม่ได้เตือนเลย */
+    if (totalMin === 12 * 60) { notifPreSent = false; notifCloseSent = false; }
 
-    /* 18:50 — เปิดในอีก 10 นาที */
-    if (totalMin === 18 * 60 + 50 && !notifPreSent) {
+    /* 06:50 / 20:20 — เปิดในอีก 10 นาที */
+    if ((totalMin === 6 * 60 + 50 || totalMin === 20 * 60 + 20) && !notifPreSent) {
         notifPreSent = true;
-        const msg = 'Window เปิดในอีก 10 นาที! (19:00 น.)\nเตรียมพร้อม: เช็คข่าว + โหลด OI ใหม่ + เปิด Alert ดาบไว้';
+        const at = totalMin < 12 * 60 ? '07:00' : '20:30';
+        const msg = `Window เปิดในอีก 10 นาที! (${at} น.)\nเตรียมพร้อม: เช็คข่าว + โหลด OI ใหม่ + เปิด Alert ดาบไว้`;
         sendNotif('EMA50 Lightsaber ⚡', msg);
         sendAlert('⚡ EMA50 Lightsaber\n' + msg);
     }
 
-    /* 19:00 — Window เปิด (transition) */
+    /* 20:30 — Window เปิด (transition) */
     if (prevWindowOpen !== null && !prevWindowOpen && isOpen) {
-        const msgOpen = 'Window เปิดแล้ว! 19:00–23:00 น. (Hard Close)\nเช็ค OI: TP ก่อน Wall / SL หลัง Wall\nรอ Alert ⏳ เตรียมดาบ → 🗡 ดาบออก\nดาบออกแล้วเข้าที่ราคาปิดแท่งนั้น ห้ามรอราคาดีกว่า ✅';
+        const msgOpen = `Window เปิดแล้ว! ${cur ? cur.name : ''} (Hard Close)`.replace('(Hard Close)', '(Hard Close)') + '\n20:30–22:00 หรือ 07:00–10:00 น.\nเช็ค OI: TP ก่อน Wall / SL หลัง Wall\nรอ Alert ⏳ เตรียมดาบ → 🗡 ดาบออก\nดาบออกแล้วเข้าที่ราคาปิดแท่งนั้น ห้ามรอราคาดีกว่า ✅';
         sendNotif('EMA50 Lightsaber 🟢 OPEN', msgOpen);
         sendAlert('🟢 EMA50 Lightsaber — OPEN\n' + msgOpen);
     }
 
-    /* 22:00 — เตือนก่อนปิด 1 ชั่วโมง */
-    if (totalMin === 22 * 60 && !notifCloseSent && isOpen) {
+    /* 21:30 — เตือนก่อนปิด 30 นาที */
+    if ((totalMin === 9 * 60 + 30 || totalMin === 21 * 60 + 30) && !notifCloseSent && isOpen) {
         notifCloseSent = true;
-        const msgClose = 'NY AM เหลืออีก 1 ชั่วโมง (ปิด 23:00 น.)\nถ้ายังไม่ได้เทรดวันนี้ — เตรียมพร้อม 🔔';
-        sendNotif('EMA50 Lightsaber 🔔 1H LEFT', msgClose);
-        sendAlert('🔔 EMA50 Lightsaber — 1H LEFT\n' + msgClose);
+        const msgClose = `เหลืออีก 30 นาที (ปิด ${totalMin < 12*60 ? '10:00' : '22:00'} น.)\nถ้ายังไม่ได้เทรดวันนี้ — เตรียมพร้อม 🔔`;
+        sendNotif('EMA50 Lightsaber 🔔 30M LEFT', msgClose);
+        sendAlert('🔔 EMA50 Lightsaber — 30M LEFT\n' + msgClose);
     }
 
     prevWindowOpen = isOpen;
@@ -1394,7 +1397,13 @@ function tickClock() {
     document.getElementById('thaiClock').textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
 
     const totalMin = h * 60 + m;
-    const isOpen = totalMin >= 19*60 && totalMin < 23*60;
+    /* 2 วินโดว์: เช้า/เอเชีย 07:00–10:00 และ เย็น/NY AM 20:30–22:00 (เวลาไทย) */
+    const WINDOWS = [
+        { open: 7*60,      close: 10*60, name: 'เช้า/เอเชีย' },
+        { open: 20*60+30,  close: 22*60, name: 'เย็น/NY AM' },
+    ];
+    const cur = WINDOWS.find(w => totalMin >= w.open && totalMin < w.close) || null;
+    const isOpen = cur !== null;
 
     const pill = document.getElementById('statusPill');
     const txt  = document.getElementById('statusTxt');
@@ -1402,22 +1411,24 @@ function tickClock() {
     const val  = document.getElementById('cdVal');
 
     pill.className = 'status-pill ' + (isOpen ? 'pill-open' : 'pill-closed');
-    txt.textContent = isOpen ? 'หน้าต่างเทรดเปิดอยู่' : 'หน้าต่างเทรดปิดอยู่';
+    txt.textContent = isOpen ? `หน้าต่างเทรดเปิดอยู่ (${cur.name})` : 'หน้าต่างเทรดปิดอยู่';
     lbl.textContent = isOpen ? 'ปิดในอีก' : 'เปิดในอีก';
 
     const target = new Date(t);
     if (isOpen) {
-        target.setHours(23, 0, 0, 0);
+        target.setHours(Math.floor(cur.close / 60), cur.close % 60, 0, 0);
     } else {
-        if (h >= 23) target.setDate(target.getDate() + 1);
-        target.setHours(19, 0, 0, 0);
+        /* วินโดว์ถัดไปของวันนี้ ถ้าเลยหมดแล้วก็ข้ามไปวินโดว์แรกของพรุ่งนี้ */
+        const next = WINDOWS.find(w => totalMin < w.open) || WINDOWS[0];
+        if (!WINDOWS.some(w => totalMin < w.open)) target.setDate(target.getDate() + 1);
+        target.setHours(Math.floor(next.open / 60), next.open % 60, 0, 0);
     }
     val.textContent = fmtDiff(target - t);
 
     /* Killzone highlights */
     const Asian  = (h >= 8  && h < 12);
     const London = (h >= 14 && h < 17);
-    const NYAM   = (totalMin >= 19*60 && totalMin < 23*60);
+    const NYAM   = (totalMin >= 20*60+30 && totalMin < 22*60);
     const NYPM   = (totalMin >= 90 && totalMin < 240);
     document.getElementById('kz0').classList.toggle('on', Asian);
     document.getElementById('kz1').classList.toggle('on', London);
