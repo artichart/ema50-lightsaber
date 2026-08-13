@@ -607,7 +607,7 @@
     <div class="cl-wrap">
         <div class="cl-head">
             <div class="cl-head-title">เช็คลิสต์ก่อนเทรด</div>
-            <div class="cl-score">ผ่าน <b id="ckCount">0</b> / 10 ข้อ</div>
+            <div class="cl-score">ผ่าน <b id="ckCount">0</b> / 11 ข้อ</div>
         </div>
         <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
 
@@ -675,22 +675,29 @@
             <div class="cl-badge" id="alignBadge">รอ</div>
         </div>
 
-        <!-- 8 OI Check -->
+        <!-- 8 EMA10 × EMA50 (กฎข้อ 2) -->
         <div class="cl-item" id="ci7" onclick="ckToggle(7)">
+            <div class="cl-box"><span class="cl-chk">✓</span></div>
+            <div class="cl-label">⚡ EMA10 อยู่ฝั่งเดียวกับ EMA50 บน <b>M5</b> — อ่านจากแถว <b>10×50</b> ในตาราง (Buy = EMA10 เหนือ EMA50 / Sell = EMA10 ใต้ EMA50)</div>
+            <div class="cl-badge">Manual</div>
+        </div>
+
+        <!-- 9 OI Check -->
+        <div class="cl-item" id="ci8" onclick="ckToggle(8)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
             <div class="cl-label">🧱 เช็ค OI (GCV26) — TP อยู่ก่อน Wall / SL อยู่หลัง Wall</div>
             <div class="cl-badge">Manual</div>
         </div>
 
-        <!-- 9 M15 Trigger -->
-        <div class="cl-item" id="ci8" onclick="ckToggle(8)">
+        <!-- 10 M5 Trigger -->
+        <div class="cl-item" id="ci9" onclick="ckToggle(9)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
-            <div class="cl-label">🕯️ Trigger: แท่ง M15 ทิศเดียวกับเทรด ยาว &ge; <b>1×ATR</b> ปิดพ้น EMA50 — เข้าเมื่อแท่งปิด (อ่านค่าจากแถว TRIG ในตาราง)</div>
+            <div class="cl-label">🕯️ Trigger: แท่ง M5 ทิศเดียวกับเทรด ยาว &ge; <b>1×ATR</b> ปิดพ้น EMA50 — เข้าเมื่อแท่งปิด (อ่านค่าจากแถว TRIG ในตาราง)</div>
             <div class="cl-badge">Manual</div>
         </div>
 
-        <!-- 10 1 trade/day -->
-        <div class="cl-item" id="ci9" onclick="ckToggle(9)">
+        <!-- 11 1 trade/window -->
+        <div class="cl-item" id="ci10" onclick="ckToggle(10)">
             <div class="cl-box"><span class="cl-chk">✓</span></div>
             <div class="cl-label">🔂 วินโดว์นี้ยังไม่ได้เทรด (1 ไม้/วินโดว์ — TP หรือ SL แล้วจบ ไม่ Re-entry)</div>
             <div class="cl-badge">Manual</div>
@@ -926,6 +933,10 @@
         <h3>Multi-Timeframe Analysis — วิเคราะห์ Top-Down</h3>
         <p>การอ่านตลาดจาก Timeframe ใหญ่ไปเล็ก เพื่อให้แน่ใจว่าเทรดในทิศทางเดียวกับ Smart Money</p>
         <div class="hl"><p><strong>5 TF Bias Rule:</strong> H4 + H1 + M30 + M15 + M5 ทุก TF ต้องอยู่ฝั่งเดียวกันของ EMA50 ก่อนเข้าเสมอ — Sell = ทุก TF ใต้ EMA50 / Buy = ทุก TF เหนือ EMA50</p></div>
+
+        <div class="hl"><p><strong>EMA10 × EMA50 (กฎข้อ 2) — ดูแค่ M5:</strong> นอกจาก Bias แล้ว เส้นเร็ว <b>EMA10</b> ต้องอยู่ฝั่งเดียวกับ EMA50 บน <b>M5</b> ด้วย อ่านจากแถว <b>10×50</b> ในตารางของอินดิเคเตอร์<br>
+        เดิมกฎนี้ต้องครบทั้ง 5 TF แต่ <b>ยกเลิกไปเมื่อ 13 ส.ค. 69</b> เพราะ TF ใหญ่มีกฎข้อ 1 คุมอยู่แล้ว และที่สำคัญกว่าคือค่าของ TF ใหญ่ต้องรอ<u>แท่งนั้นปิดก่อน</u>จึงจะอัปเดต ทำให้สัญญาณช้าได้ถึง 30 นาที (M30) — วันที่ 13 ส.ค. ดาบเลยออกช้าไป 25 จุดจนเข้าไปจ่อกำแพง OI แล้วโดน SL<br>
+        <span style="opacity:.75">สลับกลับเป็น "ครบ 5 TF" ได้ที่ input <em>กฎข้อ 2 — EMA10 × EMA50</em> ในอินดิเคเตอร์ · โหมด M5 กรองอ่อนกว่า สัญญาณจะเยอะขึ้น ยังไม่ได้ backtest</span></p></div>
         <ul class="elist">
             <li><strong>H4:</strong> กำหนดเทรนด์หลัก — ราคาเหนือ EMA50 = Bull / ใต้ = Bear</li>
             <li><strong>H1:</strong> ยืนยัน Bias — ราคาต้องอยู่ฝั่งเดียวกับ H4 บน EMA50</li>
@@ -1450,7 +1461,9 @@ function tickClock() {
 
 
 /* ── CHECKLIST ── */
-const ck = [false,false,false,false,false,false,false,false,false,false];
+// 11 ข้อ: 0 เวลา · 1-5 TF Bias · 6 Alignment (auto) · 7 EMA10×EMA50 M5 · 8 OI · 9 Trigger · 10 โควตาไม้
+// ข้อ 7 เพิ่ม 13 ส.ค. 69 ให้ตรงกับกฎข้อ 2 ของ Pine V5.3 (ขอบเขต M5 เท่านั้น)
+const ck = [false,false,false,false,false,false,false,false,false,false,false];
 const tf = [null, null, null, null, null]; // H4, H1, M30, M15, M5
 
 function ckSet(i, val, redraw=true) {
@@ -1497,12 +1510,12 @@ function setTF(i, dir, e) {
 function renderCL() {
     const total = ck.filter(Boolean).length;
     document.getElementById('ckCount').textContent = total;
-    document.getElementById('progFill').style.width = (total/10*100)+'%';
+    document.getElementById('progFill').style.width = (total/11*100)+'%';
     ck.forEach((v,i) => {
         document.getElementById('ci'+i).classList.toggle('done', v);
     });
     const banner = document.getElementById('resultBanner');
-    if (total === 10) {
+    if (total === 11) {
         const dir = tf[0]==='bull' ? 'BUY 🟢' : (tf[0]==='bear' ? 'SELL 🔴' : '');
         banner.className = 'result-banner banner-go';
         banner.textContent = `✅ ผ่านครบทุกเงื่อนไข! พร้อมเข้าเทรด ${dir} ได้เลย`;
@@ -1516,7 +1529,7 @@ function renderCL() {
 }
 
 function resetCL() {
-    for(let i=1;i<10;i++) ck[i]=false;
+    for(let i=1;i<ck.length;i++) ck[i]=false;
     tf[0]=tf[1]=tf[2]=tf[3]=tf[4]=null;
     document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
     const ab=document.getElementById('alignBadge');
