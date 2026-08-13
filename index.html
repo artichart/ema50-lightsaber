@@ -502,7 +502,7 @@
         <p class="hero-sub">เทรดเพื่อ<b>ใช้ชีวิต</b></p>
         <div class="hero-kpis">
             <div><div class="kpi-val">2%</div><div class="kpi-lbl">Risk/Trade</div></div>
-            <div><div class="kpi-val">1:1</div><div class="kpi-lbl">RR (2ATR/2ATR)</div></div>
+            <div><div class="kpi-val">&ge;1:1</div><div class="kpi-lbl">RR (ยึดกำแพง OI)</div></div>
             <div><div class="kpi-val">1</div><div class="kpi-lbl">Trade/Day</div></div>
             <div><div class="kpi-val">2.5H</div><div class="kpi-lbl">Trading Window</div></div>
         </div>
@@ -581,13 +581,13 @@
         </div>
         <div class="rule-card">
             <div class="rule-num">05</div>
-            <div class="rule-title">🎯 SL &amp; TP จาก ATR</div>
-            <div class="rule-body">ตั้ง <span class="rule-val">SL ≈ 2×ATR</span> และ <span class="rule-val">TP ≈ 2×ATR</span> ทันทีที่เข้า (RR 1:1)</div>
+            <div class="rule-title">🎯 SL &amp; TP ยึดกำแพง OI</div>
+            <div class="rule-body"><span class="rule-val">SL = เลยกำแพงที่หนุนอยู่ 1×ATR</span> · <span class="rule-val">TP = ก่อนถึงกำแพงฝั่งตรงข้าม 1×ATR</span> — <b>TP เดียว ไม่แบ่งไม้</b> · ต้องได้ <span class="rule-val">R:R &ge; 1.0</span> ไม่ถึง = ไม่เข้า<br><span style="opacity:.75">เส้น ±2×ATR บนชาร์ตเป็นแค่ไม้บรรทัดกะระยะ ถ้าเลขไม่ตรงกับกำแพง <b>ให้เชื่อฝั่งกำแพง</b></span></div>
         </div>
         <div class="rule-card">
             <div class="rule-num">06</div>
             <div class="rule-title">🚫 ห้ามขยับ SL/TP</div>
-            <div class="rule-body">หลังเข้าเทรดแล้ว <span class="rule-val">ห้ามขยับ SL / TP เด็ดขาด</span> ปล่อยระบบทำงาน ห้าม Override ด้วยอารมณ์</div>
+            <div class="rule-body">หลังเข้าเทรดแล้ว <span class="rule-val">ห้ามขยับ SL / TP เด็ดขาด</span> · <span class="rule-val">ตั้งเสร็จแล้วปิดจอ กลับมาดูอีกที 23:00</span><br><span style="opacity:.75">ไม่เฝ้าระหว่างทาง ไม่ปิดบางส่วน ไม่เลื่อน SL ไปคุ้มทุน — การนั่งดูไม้วิ่งคือจุดที่อารมณ์เข้ามาแทนที่ระบบ</span></div>
         </div>
         <div class="rule-card">
             <div class="rule-num">07</div>
@@ -876,13 +876,15 @@
     <div id="ep-atr" class="epanel">
         <h3>ATR — Average True Range วัดระยะ SL &amp; TP</h3>
         <p>Average True Range (ATR) คือ Indicator ที่วัดความผันผวนของราคาในแต่ละช่วงเวลา ใช้เป็นเกณฑ์กำหนดระยะ Stop Loss และ Take Profit แบบ Dynamic ตามสภาพตลาดจริง</p>
-        <div class="hl"><p><strong>ใน EMA50 Lightsaber V5:</strong> ตั้ง SL ≈ 2×ATR และ TP ≈ 2×ATR จากราคา Entry ทันทีที่เข้าเทรด (RR 1:1) — ปรับ TP/SL ให้สัมพันธ์กับ OI Wall (TP ก่อน Wall / SL หลัง Wall)</p></div>
+        <div class="hl"><p><strong>ใน EMA50 Lightsaber V5:</strong> ATR ไม่ได้เป็นตัวกำหนดระยะ SL/TP โดยตรง แต่เป็น <strong>ระยะเผื่อรอบกำแพง OI</strong> — SL วางเลยกำแพงที่หนุนไม้อยู่ 1×ATR (เผื่อให้ราคาแทงทะลุแล้วเด้งกลับได้) และ TP วางก่อนถึงกำแพงฝั่งตรงข้าม 1×ATR (เพราะราคามักไปไม่ถึงกำแพงพอดี)</p></div>
         <ul class="elist">
             <li>ATR คำนวณจาก True Range เฉลี่ย 14 แท่งล่าสุด (ค่าเริ่มต้น)</li>
             <li>ค่า ATR สูง = ตลาดผันผวนมาก → SL/TP กว้างขึ้น</li>
             <li>ค่า ATR ต่ำ = ตลาดนิ่ง → SL/TP แคบลง ระวัง Whipsaw</li>
-            <li><strong>SL = Entry ± 2×ATR</strong> — ป้องกัน Noise ในตลาด และต้องอยู่หลัง OI Wall</li>
-            <li><strong>TP = Entry ± 2×ATR</strong> — RR 1:1 ไม่ขยับหลังตั้ง และต้องอยู่ก่อน OI Wall</li>
+            <li><strong>SL = กำแพงที่หนุนอยู่ ∓ 1×ATR</strong> — ยึดกำแพงเป็นหลัก <u>ไม่ใช่นับถอยจากราคาเข้า</u></li>
+            <li><strong>TP = กำแพงฝั่งตรงข้าม ∓ 1×ATR</strong> — TP เดียว ไม่แบ่งไม้ ไม่ขยับหลังตั้ง</li>
+            <li><strong>R:R = ระยะถึง TP ÷ ระยะถึง SL</strong> — เป็นผลลัพธ์ของตำแหน่งราคาระหว่างกำแพงสองตัว ไม่ใช่ค่าที่เราตั้งเอง <b>ต่ำกว่า 1.0 = ไม่เข้า</b></li>
+            <li>ยิ่ง SL กว้าง lot ยิ่งเล็ก — ความเสี่ยงต่อไม้คงที่ที่ 300 USD เสมอ</li>
             <li>หา ATR ได้จาก TradingView → Add Indicator → "ATR" เลือก Period 14</li>
         </ul>
     </div>
